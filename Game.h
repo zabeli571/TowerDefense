@@ -4,6 +4,7 @@
 #include <iostream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_image.h>
 #include "Button.h"
 #include <vector>
 #include "Constants.h"
@@ -14,6 +15,7 @@
 #include "Opponent.h"
 #include "Obstacle.h"
 #include "HPButton.h"
+#include "Legend.h"
 
 using namespace std;
 

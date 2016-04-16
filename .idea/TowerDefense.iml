@@ -5,8 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Constants.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/GameField.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/HPButton.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Button.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Legend.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/GameObject.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Opponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
@@ -15,16 +15,18 @@
       <sourceFolder url="file://$MODULE_DIR$/Opponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/GameField.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/HPButton.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/MenuButton.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Legend.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/HPButton.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MenuButton.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Defense.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Defense.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Button.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MainObject.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MainObject.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Obstacle.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CreatorButton.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/MainObject.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MenuButton.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/GameObject.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Button.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CreatorButton.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Obstacle.h" isTestSource="false" />
     </content>

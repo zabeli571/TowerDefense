@@ -84,6 +84,7 @@ void Game::initAllegro() {
     al_init_font_addon();
     al_init_ttf_addon();
     al_install_mouse();
+    al_init_image_addon();
 
 }
 
@@ -287,6 +288,7 @@ void Game::drawCreator() {
     interfaceObjects.push_back(new CreatorButton(7, CreatorButton::CREATOR_BUTTON_CODE_SAVE, "ZAPISZ"));
     interfaceObjects.push_back(new CreatorButton(8, CreatorButton::CREATOR_BUTTON_CODE_RETURN, "WROC DO MENU"));
     interfaceObjects.push_back(gameField);
+    interfaceObjects.push_back(new Legend());
     redraw();
 }
 
