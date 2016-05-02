@@ -26,5 +26,11 @@ void Obstacle::displayOnConsole() {
     GameObject::displayOnConsole();
 }
 
+void Obstacle::saveToStream(ofstream *outputStream) {
+    GameObject::saveToStream(outputStream);
+}
 
+void Obstacle::createFromStream(ifstream *inputStream) {
+
+}
 

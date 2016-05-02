@@ -9,6 +9,8 @@
 #include "GameObject.h"
 #include "GameField.h"
 
+
+
 using namespace std;
 
 class Opponent: public GameObject//spis tresci
@@ -18,6 +20,8 @@ public:
     void displayOnConsole();
     Opponent(GameField *gameField);
     Opponent(GameField *gameField, int row, int column);
+    void saveToStream(ofstream* outputStream);
+    void createFromStream(ifstream* inputStream);
     ~Opponent();
 };
 

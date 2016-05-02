@@ -221,9 +221,18 @@ void Game::runCreator()
                     gameState=GAME_STATE_IDLE;
                 }
                 break;
-           // case CreatorButton::CREATOR_BUTTON_CODE_SAVE:
+            case CreatorButton::CREATOR_BUTTON_CODE_SAVE:
+            {
+                saveObjects();
+                return;
+            }
             case CreatorButton::CREATOR_BUTTON_CODE_RETURN:
-              return;
+            {
+                ifstream inputStream("obiekt.izu");
+
+            }
+                break;
+//              return;
             default:
                 return;
         }
@@ -334,6 +343,23 @@ void Game::redraw()
     }
     al_flip_display();
 }
+
+void Game::saveObjects() {
+    ofstream outputStream("maps/"+ getNextMapName() +".izu");
+    outputStream << gameObjects.size();
+    for(int i=0;i<gameObjects.size();i++){
+        gameObjects[i]->saveToStream(&outputStream);
+    }
+    outputStream.close();
+}
+
+string Game::getNextMapName() {
+    return "map11";
+}
+
+
+
+
 
 
 

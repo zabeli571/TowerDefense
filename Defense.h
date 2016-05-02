@@ -17,6 +17,8 @@ public:
     Defense(GameField *gameField, int hp);// przy konstruktorach defense, opponent, obstacle daje w argumentach wskaznik na gamefield by znac pole w ktorym chce narysowac
     void displayOnConsole();
     ~Defense();
+    void saveToStream(ofstream* outputStream);
+    void createFromStream(ifstream* inputStream);
 };
 
 #endif

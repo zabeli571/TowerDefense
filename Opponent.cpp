@@ -27,3 +27,13 @@ void Opponent::displayOnConsole()
     cout<<"Opponent dziedziczy po"<<endl;
     GameObject::displayOnConsole();
 }
+
+void Opponent::saveToStream(ofstream *outputStream) {
+    GameObject::saveToStream(outputStream);
+}
+
+void Opponent::createFromStream(ifstream *inputStream) {
+
+}
+
+

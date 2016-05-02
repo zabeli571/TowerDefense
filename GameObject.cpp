@@ -55,10 +55,10 @@ GameObject::~GameObject()
     cout<<"\tdestruktor GameObject"<<endl<<"\t";
 }
 
+void GameObject::saveToStream(ofstream *outputStream) {
+    *outputStream << " " << code << " " << gridXPos << " " << gridYPos;
+}
 
+void GameObject::createFromStream(ifstream *inputStream) {
 
-
-
-
-
-
+}

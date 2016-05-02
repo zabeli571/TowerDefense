@@ -21,6 +21,19 @@ void Defense::displayOnConsole() {
     GameObject::displayOnConsole();
 }
 
+void Defense::saveToStream(ofstream *outputStream) {
+    GameObject::saveToStream(outputStream);
+    *outputStream << " " << hp;
+}
+
+void Defense::createFromStream(ifstream *inputStream) {
+    GameObject::createFromStream(inputStream);
+}
+
+
+
+
+
 
 
 

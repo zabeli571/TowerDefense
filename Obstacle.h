@@ -18,6 +18,8 @@ public:
     Obstacle(GameField *gameField);//przekazuje do konstruktora i tam z niego korzystam
     Obstacle(GameField *gameField, int row, int column);
     ~Obstacle();
+    void saveToStream(ofstream* outputStream);
+    void createFromStream(ifstream* inputStream);
 };
 
 

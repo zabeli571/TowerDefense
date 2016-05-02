@@ -16,6 +16,7 @@
 #include "Obstacle.h"
 #include "HPButton.h"
 #include "Legend.h"
+#include <fstream>
 
 using namespace std;
 
@@ -53,5 +54,8 @@ private:
     void redraw();
     void deleteClickedObject();
     bool getFreeRandomSquare(int *randomRow,int *randomColumn);
+
+    void saveObjects();
+    string getNextMapName();
 };
 #endif
