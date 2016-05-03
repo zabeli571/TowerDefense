@@ -14,7 +14,6 @@ Defense::Defense(GameField *gameField, int hp): GameObject(gameField)
 Defense::Defense(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
 {
     cout<<"\tkonstruktor Defense"<<endl;
-    *inputStream >> hp;
     code = DEFENSE_CODE;
     allegroColor=al_map_rgb(0,153,0);
 }
@@ -25,11 +24,45 @@ Defense::~Defense()
 }
 
 void Defense::displayOnConsole() {
-    cout<<"Defense, atrybut HP: " << hp << ", dziedziczy po"<<endl;
+    cout<<"Defense, dziedziczy po"<<endl;
     GameObject::displayOnConsole();
 }
 
 void Defense::saveToStream(ofstream *outputStream) {
     GameObject::saveToStream(outputStream);
-    *outputStream << " " << hp;
 }
+
+void Defense::move() {
+    willMove = true;
+}
+
+void Defense::collisionWith(GameObject *anotherObject) {
+    anotherObject->collisionWithDefense(this);
+}
+
+void Defense::collisionWithOpponent(Opponent *opponent) {
+
+}
+
+void Defense::collisionWithObstacle(Obstacle *obstacle) {
+
+}
+
+void Defense::collisionWithDefense(Defense *defense) {
+
+}
+
+void Defense::doAction() {
+
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -12,6 +12,13 @@ using namespace std;
 
 class Obstacle: public GameObject
 {
+private:
+    void move();
+    void collisionWith(GameObject *anotherObject);
+    void collisionWithOpponent(Opponent *opponent);
+    void collisionWithObstacle(Obstacle *obstacle);
+    void collisionWithDefense(Defense *defense);
+    void doAction();
 public:
     static const int OBSTACLE_CODE = 11;
     void displayOnConsole();

@@ -1,4 +1,7 @@
 #include "Game.h"
+#include "Opponent.h"
+#include "Obstacle.h"
+#include "Defense.h"
 
 Game::Game()
 {
@@ -376,14 +379,14 @@ void Game::runPlay(string mapName)
     drawPlay();
     while(true) {
         switch (getClickedObjectWithCode()) {
-            case CreatorButton::CREATOR_BUTTON_CODE_ADD_TOWER:
-                createHPButtons();
-                gameState = GAME_STATE_ADD_HP;
+            case Button::BUTTON_PLAY_START:
+            {
+                Play play(this,&gameObjects);
+                play.run();
                 break;
-            default :
+            }
+            default:
                 break;
-            case 1000000:
-                return;
         }
     }
 }

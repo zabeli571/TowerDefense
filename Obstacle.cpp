@@ -1,4 +1,5 @@
 #include "Obstacle.h"
+#include "Opponent.h"
 using namespace std;
 
 
@@ -6,6 +7,7 @@ Obstacle::Obstacle(GameField *gameField): GameObject(gameField)
 {
     cout<<"\tkonstruktor Obstacle"<<endl;
     code = OBSTACLE_CODE;
+    hp=20;
     allegroColor=al_map_rgb(192,192,192);
 }
 
@@ -13,6 +15,7 @@ Obstacle::Obstacle(GameField *gameField, int row, int column): GameObject(gameFi
 {
     cout<<"\tkonstruktor Obstacle"<<endl;
     code = OBSTACLE_CODE;
+    hp=20;
     allegroColor=al_map_rgb(192,192,192);
 }
 
@@ -36,3 +39,38 @@ void Obstacle::displayOnConsole() {
 void Obstacle::saveToStream(ofstream *outputStream) {
     GameObject::saveToStream(outputStream);
 }
+
+void Obstacle::move() {
+    willMove = true;
+}
+
+void Obstacle::collisionWith(GameObject *anotherObject) {
+    anotherObject->collisionWithObstacle(this);
+}
+
+void Obstacle::collisionWithOpponent(Opponent *opponent) {
+    opponent->willMove = false;
+}
+
+void Obstacle::collisionWithObstacle(Obstacle *obstacle) {
+
+}
+
+void Obstacle::collisionWithDefense(Defense *defense) {
+
+}
+
+void Obstacle::doAction() {
+
+}
+
+
+
+
+
+
+
+
+
+
+

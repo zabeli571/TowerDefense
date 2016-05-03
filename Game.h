@@ -1,6 +1,5 @@
 #ifndef GAME_H
 #define GAME_H
-
 #include <iostream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -10,18 +9,17 @@
 #include "Constants.h"
 #include "MenuButton.h"
 #include "CreatorButton.h"
-#include "GameField.h"
-#include "Defense.h"
-#include "Opponent.h"
-#include "Obstacle.h"
+#include "GameObject.h"
 #include "HPButton.h"
 #include "Legend.h"
+#include "Play.h"
 #include <fstream>
 
 using namespace std;
 
 class Game
 {
+    friend class Play;
 private:
     static const int GAME_STATE_IDLE = 0;
     static const int GAME_STATE_ADD_DEFENSE=1;

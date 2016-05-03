@@ -1,7 +1,9 @@
 #include "GameObject.h"
+#include "Opponent.h"
 #include "Obstacle.h"
 #include "Defense.h"
-#include "Opponent.h"
+
+int GameObject::idCounter = 0;
 
 GameObject::GameObject(GameField *gameField)
 {
@@ -42,7 +44,9 @@ GameObject::GameObject(GameField *gameField, ifstream *inputStream) {
     int xRelative,yRelative, row, column;
     *inputStream >> column;
     *inputStream >> row;
+    *inputStream >> hp;
     gameField->getSquareRelativePos(row,column,&xRelative,&yRelative);
+    id = GameObject::getNextId();
     gridXPos = column;
     gridYPos = row;
     gridXPosPx=xRelative;
@@ -67,7 +71,7 @@ bool GameObject::isItsPosition(int randomRow, int randomColumn)
 
 void GameObject::displayOnConsole()
 {
-    cout<<"\tGameObject, pozycja: X " << gridXPos << ", Y: "<<gridYPos<<endl;
+    cout<<"\tGameObject, pozycja: X " << gridXPos << ", Y: "<<gridYPos<< ", hp:  "<< hp<<endl;
 }
 
 GameObject::~GameObject()
@@ -76,7 +80,7 @@ GameObject::~GameObject()
 }
 
 void GameObject::saveToStream(ofstream *outputStream) {
-    *outputStream << " " << code << " " << gridXPos << " " << gridYPos;
+    *outputStream << " " << code << " " << gridXPos << " " << gridYPos << " " << hp;
 }
 
 GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstream *inputStream) {
@@ -90,6 +94,39 @@ GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstr
             return new Opponent(gameField,inputStream);
     }
 }
+
+int GameObject::getNextId()
+{
+    return ++GameObject::idCounter;
+}
+
+bool GameObject::areObjectsClashed(GameObject *first, GameObject *second) {
+    if(first->id == second->id)
+    {
+        return false;
+    }
+    else
+    {
+        return ((first->x <= second->x && first->x + first->xLength > second->x) || (second->x <= first->x && second->x + second->xLength > first->x))
+               && ((first->y <= second->y && first->y+first->yLength > second->y)||(second->y <= first->y && second->y+second->yLength > first->y));
+    }
+}
+
+bool GameObject::willDie() {
+    return hp<=0;
+}
+
+void GameObject::resetIdCounter() {
+    GameObject::idCounter=0;
+}
+
+
+
+
+
+
+
+
 
 
 
