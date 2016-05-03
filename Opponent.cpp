@@ -17,6 +17,13 @@ Opponent::Opponent(GameField *gameField, int row, int column): GameObject(gameFi
     allegroColor=al_map_rgb(204,0,0);
 }
 
+Opponent::Opponent(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
+{
+    cout<<"\tkonstruktor Opponent"<<endl;
+    code = OPPONENT_CODE;
+    allegroColor=al_map_rgb(204,0,0);
+}
+
 Opponent::~Opponent()
 {
     cout<<"destruktor Opponent"<<endl;
@@ -31,9 +38,3 @@ void Opponent::displayOnConsole()
 void Opponent::saveToStream(ofstream *outputStream) {
     GameObject::saveToStream(outputStream);
 }
-
-void Opponent::createFromStream(ifstream *inputStream) {
-
-}
-
-

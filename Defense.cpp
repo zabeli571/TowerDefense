@@ -11,6 +11,14 @@ Defense::Defense(GameField *gameField, int hp): GameObject(gameField)
     allegroColor=al_map_rgb(0,153,0);
 }
 
+Defense::Defense(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
+{
+    cout<<"\tkonstruktor Defense"<<endl;
+    *inputStream >> hp;
+    code = DEFENSE_CODE;
+    allegroColor=al_map_rgb(0,153,0);
+}
+
 Defense::~Defense()
 {
     cout<<"destruktor Defense"<<endl;
@@ -25,18 +33,3 @@ void Defense::saveToStream(ofstream *outputStream) {
     GameObject::saveToStream(outputStream);
     *outputStream << " " << hp;
 }
-
-void Defense::createFromStream(ifstream *inputStream) {
-    GameObject::createFromStream(inputStream);
-}
-
-
-
-
-
-
-
-
-
-
-

@@ -10,16 +10,16 @@ class GameObject : public MainObject
 protected:
     int gridXPos, gridYPos, gridXPosPx, gridYPosPx;
 
-    string changeToString(int number);
 public:
+    static GameObject* getGameObjectByCode(GameField *gameField,int code, ifstream *inputStream);
     GameObject(GameField *gameField);
     GameObject(GameField *gameField, int row, int column);
+    GameObject(GameField *gameField, ifstream *inputStream);
     ~GameObject();
     void draw();
     virtual void displayOnConsole();
     bool isItsPosition(int randomRow,int randomColumn);//dla kazdego obiektu sprawdzam cz wylosowane pole to jego pozycja
     virtual void saveToStream(ofstream* outputStream);
-    virtual void createFromStream(ifstream* inputStream);
 };
 
 #endif //TOWERDEFENSE_GAMEOBJECT_H

@@ -20,8 +20,8 @@ public:
     void displayOnConsole();
     Opponent(GameField *gameField);
     Opponent(GameField *gameField, int row, int column);
+    Opponent(GameField *gameField, ifstream *inputStream);
     void saveToStream(ofstream* outputStream);
-    void createFromStream(ifstream* inputStream);
     ~Opponent();
 };
 

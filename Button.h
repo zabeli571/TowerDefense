@@ -17,6 +17,8 @@ protected:
     string name;
     ALLEGRO_FONT *font;
 public:
+    static const int BUTTON_PLAY_START = 110;
+
     Button(int x, int y, int xLength, int yLength, int code, string name);
     ~Button();
     void draw();

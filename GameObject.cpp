@@ -1,4 +1,7 @@
 #include "GameObject.h"
+#include "Obstacle.h"
+#include "Defense.h"
+#include "Opponent.h"
 
 GameObject::GameObject(GameField *gameField)
 {
@@ -34,6 +37,23 @@ GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstru
     y=gameFieldY+gridYPosPx;
 }
 
+GameObject::GameObject(GameField *gameField, ifstream *inputStream) {
+    cout<<"\tkonstruktor GameObject"<<endl<<"\t";
+    int xRelative,yRelative, row, column;
+    *inputStream >> column;
+    *inputStream >> row;
+    gameField->getSquareRelativePos(row,column,&xRelative,&yRelative);
+    gridXPos = column;
+    gridYPos = row;
+    gridXPosPx=xRelative;
+    gridYPosPx=yRelative;
+    int gameFieldX, gameFieldY, squareWidth;
+    gameField->getProperties(&gameFieldX,&gameFieldY,&squareWidth);
+    xLength = squareWidth;
+    yLength = squareWidth;
+    x=gameFieldX+gridXPosPx;
+    y=gameFieldY+gridYPosPx;
+}
 
 void GameObject::draw()
 {
@@ -59,6 +79,19 @@ void GameObject::saveToStream(ofstream *outputStream) {
     *outputStream << " " << code << " " << gridXPos << " " << gridYPos;
 }
 
-void GameObject::createFromStream(ifstream *inputStream) {
-
+GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstream *inputStream) {
+    switch(code)
+    {
+        case Obstacle::OBSTACLE_CODE:
+            return new Obstacle(gameField,inputStream);
+        case Defense::DEFENSE_CODE:
+            return new Defense(gameField,inputStream);
+        case Opponent::OPPONENT_CODE:
+            return new Opponent(gameField,inputStream);
+    }
 }
+
+
+
+
+

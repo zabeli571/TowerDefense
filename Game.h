@@ -57,5 +57,9 @@ private:
 
     void saveObjects();
     string getNextMapName();
+    void runPlay(string mapName);
+    void drawPlay();
+
+    void loadObjects(string mapName);
 };
 #endif

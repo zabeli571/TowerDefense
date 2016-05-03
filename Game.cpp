@@ -51,6 +51,7 @@ void Game::run()
         {
             case MenuButton::MENU_BUTTON_CODE_NEW_GAME:
                 cout<<"nowa gra!"<<endl;
+                runPlay("maps/"+ getNextMapName()+".izu");
                 break;
             case MenuButton::MENU_BUTTON_CODE_LOAD_GAME:
                 cout<<"wczytana!"<<endl;
@@ -191,7 +192,7 @@ void Game::runCreator()
                 selectedHP=10;
                 gameState=GAME_STATE_ADD_DEFENSE;
                 break;
-            case GameField::GAME_FIELD_CODE:
+            case GameField::GAME_FIELD_CREATOR_CODE:
                 if(gameState==GAME_STATE_ADD_DEFENSE)
                 {
                     deleteHPButtons();
@@ -222,17 +223,10 @@ void Game::runCreator()
                 }
                 break;
             case CreatorButton::CREATOR_BUTTON_CODE_SAVE:
-            {
                 saveObjects();
                 return;
-            }
             case CreatorButton::CREATOR_BUTTON_CODE_RETURN:
-            {
-                ifstream inputStream("obiekt.izu");
-
-            }
-                break;
-//              return;
+                return;
             default:
                 return;
         }
@@ -286,7 +280,7 @@ void Game::deleteHPButtons()
 void Game::drawCreator() {
     //cout << "jestem w runCreator!" << endl;
     deleteObjects();
-    gameField = new GameField();//tworze obiekt gamefield
+    gameField = new GameField(GameField::GAME_FIELD_CREATOR_CODE);//tworze obiekt gamefield
     interfaceObjects.push_back(new CreatorButton(0, CreatorButton::CREATOR_BUTTON_CODE_ADD_TOWER, "DODAJ WIEZE"));//dodaje przyciski do wektora, przekazuje nr code name do konstruktora buttona
     interfaceObjects.push_back(new CreatorButton(1, CreatorButton::CREATOR_BUTTON_CODE_ADD_OPPONENT, "DODAJ PRZECIWNIKA"));
     interfaceObjects.push_back(new CreatorButton(2, CreatorButton::CREATOR_BUTTON_CODE_ADD_OBSTACLE, "DODAJ PRZESZKODE"));
@@ -353,19 +347,50 @@ void Game::saveObjects() {
     outputStream.close();
 }
 
-string Game::getNextMapName() {
-    return "map11";
+void Game::loadObjects(string mapName)
+{
+    ifstream inputStream(mapName);
+    int objectsCount;
+    inputStream >> objectsCount; //pobieramy liczbe obiektow
+    for(int i=0;i<objectsCount;i++)
+    {
+        int code;
+        inputStream >> code;
+        GameObject *gameObject = GameObject::getGameObjectByCode(gameField,code,&inputStream);
+        gameObjects.push_back(gameObject);
+
+    }
+    inputStream.close();
 }
 
+string Game::getNextMapName()
+{
+    return "map1";
+}
 
+void Game::runPlay(string mapName)
+{
+    deleteObjects();
+    gameField = new GameField(GameField::GAME_FIELD_PLAY_CODE);//tworze obiekt gamefield
+    loadObjects(mapName);
+    drawPlay();
+    while(true) {
+        switch (getClickedObjectWithCode()) {
+            case CreatorButton::CREATOR_BUTTON_CODE_ADD_TOWER:
+                createHPButtons();
+                gameState = GAME_STATE_ADD_HP;
+                break;
+            default :
+                break;
+            case 1000000:
+                return;
+        }
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
+void Game::drawPlay()
+{
+    interfaceObjects.push_back(new Button(400, 500 ,200,100, Button::BUTTON_PLAY_START , "START"));
+    interfaceObjects.push_back(gameField);
+    redraw();
+}

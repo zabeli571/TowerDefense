@@ -2,15 +2,33 @@
 
 using namespace std;
 
-GameField:: GameField()
-{
+GameField::GameField(int code) {
     cout<<"\tkonstruktor GameField"<<endl;
-    allegroColor=al_map_rgb( 0,  102, 102);
-    x=GAME_FIELD_XPOS;
-    y=GAME_FIELD_YPOS;
-    xLength=GAME_FIELD_WIDTH;
-    yLength=GAME_FIELD_HEIGHT;
-    code=GAME_FIELD_CODE;
+    switch (code){
+        case GAME_FIELD_CREATOR_CODE :
+            allegroColor=al_map_rgb( 0,  102, 102);
+            x=CREATOR_XPOS;
+            y=CREATOR_YPOS;
+            xLength=CREATOR_WIDTH;
+            yLength=CREATOR_HEIGHT;
+            this->code=GAME_FIELD_CREATOR_CODE;
+            rows = CREATOR_ROWS;
+            columns = CREATOR_COLUMNS;
+            break;
+        case GAME_FIELD_PLAY_CODE :
+            allegroColor=al_map_rgb( 0,  102, 102);
+            x=PLAY_XPOS;
+            y=PLAY_YPOS;
+            xLength=PLAY_WIDTH;
+            yLength=PLAY_HEIGHT;
+            this->code=GAME_FIELD_PLAY_CODE;
+            rows = PLAY_ROWS;
+            columns = PLAY_COLUMNS;
+            break;
+        default:
+            cout << "Nieznany kod GameField";
+            break;
+    }
     srand(time(NULL));
 }
 
@@ -19,11 +37,11 @@ void GameField::draw()
     al_draw_filled_rectangle(x, y, x+xLength, y+yLength, allegroColor);
     for(int i=0;i<6;i++)
     {
-        al_draw_line(x, y +i*GAME_FIELD_SQUARE, x + xLength, y +i*GAME_FIELD_SQUARE , al_map_rgb(255,  229, 204), 2);
+        al_draw_line(x, y +i*getSquareSize(), x + xLength, y +i*getSquareSize() , al_map_rgb(255,  229, 204), 2);
     }
     for(int i=0;i<11;i++)
     {
-        al_draw_line(x +i*GAME_FIELD_SQUARE, y, x  +i*GAME_FIELD_SQUARE, y + yLength , al_map_rgb(255,  229, 204), 2);
+        al_draw_line(x +i*getSquareSize(), y, x  +i*getSquareSize(), y + yLength , al_map_rgb(255,  229, 204), 2);
     }
 }
 
@@ -35,18 +53,18 @@ void GameField::whichSquare(int *x, int *y, int *row, int *column)//ktory zostal
     int c=0;
     for(int i=1;i<6;i++)
     {
-        if(clickYPos<this->y+i*GAME_FIELD_SQUARE)
+        if(clickYPos<this->y+i*getSquareSize())
         {
-            yy=(i-1)*GAME_FIELD_SQUARE;
+            yy=(i-1)*getSquareSize();
             r=i;
             break;
         }
     }
     for(int i=1;i<11;i++)
     {
-        if(clickXPos<this->x+i*GAME_FIELD_SQUARE)
+        if(clickXPos<this->x+i*getSquareSize())
         {
-            xx=(i-1)*GAME_FIELD_SQUARE;
+            xx=(i-1)*getSquareSize();
             c=i;
             break;
         }
@@ -72,7 +90,7 @@ void GameField::getProperties(int *x, int *y, int *sq)//gamefield xpos, ypos,sze
 {
     *x=this->x;//x=GAME_FIELD_XPOS
     *y=this->y;//y=GAME_FIELD_YPOS
-    *sq=GAME_FIELD_SQUARE;
+    *sq=getSquareSize();
 }
 
 GameField::~GameField()
@@ -82,18 +100,22 @@ GameField::~GameField()
 
 void GameField::getRandomSquare(int *row, int *column)//losuje kwadracik
 {
-    *row = (rand() % GAME_FIELD_ROWS)+1;
-    *column = (rand() % GAME_FIELD_COLUMNS) +1;
+    *row = (rand() % rows)+1;
+    *column = (rand() % columns) +1;
     cout << "wylosowano "<< *column << ", "<< *row << endl;
 }
 
 void GameField::getSquareRelativePos(int row, int column, int *xRelativePos, int *yRelativePos)//wzgledem okna gry
 {
-    *yRelativePos=(row-1)*GAME_FIELD_SQUARE;
-    *xRelativePos=(column-1)*GAME_FIELD_SQUARE;
+    *yRelativePos=(row-1)*getSquareSize();
+    *xRelativePos=(column-1)*getSquareSize();
 }
 
 int GameField::getSquareCount()//wielkosc pola - 50 kwadracikow
 {
-    return GAME_FIELD_COLUMNS*GAME_FIELD_ROWS;
+    return rows*columns;
+}
+
+int GameField::getSquareSize() {
+    return xLength/columns;
 }
