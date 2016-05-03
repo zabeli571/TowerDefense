@@ -11,7 +11,7 @@
 
 using namespace std;
 
-class Opponent: public GameObject//spis tresci
+class Opponent: public GameObject
 {
 private:
     static const int ATTACK_INTERVAL = 1000;

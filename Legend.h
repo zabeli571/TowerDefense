@@ -14,8 +14,6 @@ using namespace std;
 
 class Legend: public MainObject
 {
-private:
-    ALLEGRO_BITMAP  *image;
 public:
     Legend();
     void draw();

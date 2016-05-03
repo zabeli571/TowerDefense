@@ -12,6 +12,7 @@ class MainObject
 {
 protected:
     ALLEGRO_COLOR allegroColor;
+    ALLEGRO_BITMAP *image;
     int x, y, xLength, yLength;
     int clickXPos, clickYPos;
     int code=0;

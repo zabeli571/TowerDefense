@@ -5,6 +5,7 @@
 class Game;
 
 class Play {
+    friend class Defence;
 private:
     static const int REFRESH_TIME = 100;
 

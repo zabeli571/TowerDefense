@@ -61,7 +61,8 @@ GameObject::GameObject(GameField *gameField, ifstream *inputStream) {
 
 void GameObject::draw()
 {
-    al_draw_filled_rectangle(x+1, y+1, x+xLength-1, y+yLength-1, allegroColor);
+//    al_draw_filled_rectangle(x+1, y+1, x+xLength-1, y+yLength-1, allegroColor);
+    al_draw_scaled_bitmap(image,0,0,al_get_bitmap_width(image), al_get_bitmap_height(image),x,y,xLength,yLength,0);
 }
 
 bool GameObject::isItsPosition(int randomRow, int randomColumn)

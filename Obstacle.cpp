@@ -9,6 +9,7 @@ Obstacle::Obstacle(GameField *gameField): GameObject(gameField)
     code = OBSTACLE_CODE;
     hp=20;
     allegroColor=al_map_rgb(192,192,192);
+    image = al_load_bitmap("bitmaps/obstacle.png");
 }
 
 Obstacle::Obstacle(GameField *gameField, int row, int column): GameObject(gameField,row,column)//uzywany do losowania
@@ -17,6 +18,7 @@ Obstacle::Obstacle(GameField *gameField, int row, int column): GameObject(gameFi
     code = OBSTACLE_CODE;
     hp=20;
     allegroColor=al_map_rgb(192,192,192);
+    image = al_load_bitmap("bitmaps/obstacle.png");
 }
 
 Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
@@ -24,6 +26,7 @@ Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(game
     cout<<"\tkonstruktor Obstacle"<<endl;
     code = OBSTACLE_CODE;
     allegroColor=al_map_rgb(192,192,192);
+    image = al_load_bitmap("bitmaps/obstacle.png");
 }
 
 Obstacle::~Obstacle()

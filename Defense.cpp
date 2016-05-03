@@ -1,5 +1,5 @@
 #include "Defense.h"
-
+#include "Opponent.h"
 using namespace std;
 
 
@@ -9,6 +9,7 @@ Defense::Defense(GameField *gameField, int hp): GameObject(gameField)
     this->hp=hp;
     code = DEFENSE_CODE;
     allegroColor=al_map_rgb(0,153,0);
+    image = al_load_bitmap("bitmaps/defense.png");
 }
 
 Defense::Defense(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
@@ -16,6 +17,9 @@ Defense::Defense(GameField *gameField, ifstream *inputStream): GameObject(gameFi
     cout<<"\tkonstruktor Defense"<<endl;
     code = DEFENSE_CODE;
     allegroColor=al_map_rgb(0,153,0);
+    image = al_load_bitmap("bitmaps/defense.png");
+
+    lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
 }
 
 Defense::~Defense()
@@ -41,19 +45,26 @@ void Defense::collisionWith(GameObject *anotherObject) {
 }
 
 void Defense::collisionWithOpponent(Opponent *opponent) {
+    opponent->willMove = false;
+}
+
+void Defense::collisionWithObstacle(Obstacle *obstacle)
+{
 
 }
 
-void Defense::collisionWithObstacle(Obstacle *obstacle) {
+void Defense::collisionWithDefense(Defense *defense)
+{
 
 }
 
-void Defense::collisionWithDefense(Defense *defense) {
+void Defense::doAction()
+{
+    std::chrono::milliseconds eventTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL)
+    {
 
-}
-
-void Defense::doAction() {
-
+    }
 }
 
 

@@ -11,6 +11,9 @@ using namespace std;
 class Defense: public GameObject
 {
 private:
+    static const int ATTACK_INTERVAL = 2000;
+    chrono::milliseconds lastAttackTime;
+
     void move();
     void collisionWith(GameObject *anotherObject);
     void collisionWithOpponent(Opponent *opponent);
