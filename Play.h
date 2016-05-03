@@ -10,13 +10,19 @@ private:
 
     vector<GameObject*> *gameObjects; //wskaznik na wektor GameObjectow
     Game *game;
+
+    void deleteObject(GameObject *gameObject);
+    bool checkForOutsideField();
+    bool checkForWin();
 public:
-    void addBullet(int column, int row);
+    static const int VICTORY_CODE = 1;
+    static const int DEFEAT_CODE = 0;
+
+    void addObject(GameObject *gameObject);
     Play(Game *game,vector<GameObject*> *gameObjects);
     ~Play();
-    void run();
+    int run();
 
-    void deleteDyingObject(GameObject *gameObject);
 };
 
 

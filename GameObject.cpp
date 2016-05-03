@@ -20,6 +20,7 @@ GameObject::GameObject(GameField *gameField)
     yLength = squareWidth;
     x=gameFieldX+gridXPosPx;
     y=gameFieldY+gridYPosPx;
+    this->gameField = gameField;
 }
 
 GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstruktor dla obstacle i opponent
@@ -37,6 +38,7 @@ GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstru
     yLength = squareWidth;
     x=gameFieldX+gridXPosPx;
     y=gameFieldY+gridYPosPx;
+    this->gameField = gameField;
 }
 
 GameObject::GameObject(GameField *gameField, ifstream *inputStream) {
@@ -57,6 +59,7 @@ GameObject::GameObject(GameField *gameField, ifstream *inputStream) {
     yLength = squareWidth;
     x=gameFieldX+gridXPosPx;
     y=gameFieldY+gridYPosPx;
+    this->gameField = gameField;
 }
 
 void GameObject::draw()
@@ -120,6 +123,12 @@ bool GameObject::willDie() {
 void GameObject::resetIdCounter() {
     GameObject::idCounter=0;
 }
+
+bool GameObject::isOutsideField() {
+    return x < gameField->x || x+xLength > gameField->x+gameField->xLength;
+}
+
+
 
 
 

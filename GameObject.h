@@ -19,6 +19,7 @@ private:
 
     static int getNextId();
 protected:
+    GameField *gameField;
     int gridXPos, gridYPos, gridXPosPx, gridYPosPx, id;
 public:
     int hp;
@@ -45,6 +46,8 @@ public:
     bool willDie();
 
     static bool areObjectsClashed(GameObject *first, GameObject *second);
+
+    bool isOutsideField();
 };
 
 #endif //TOWERDEFENSE_GAMEOBJECT_H

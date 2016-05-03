@@ -13,6 +13,7 @@ using namespace std;
 
 class GameField: public MainObject
 {
+    friend class GameObject;
 private:
     static const int CREATOR_XPOS=50;
     static const int CREATOR_YPOS=90;

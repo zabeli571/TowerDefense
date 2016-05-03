@@ -14,7 +14,7 @@ Button:: Button(int x, int y, int xLength, int yLength, int code, string name)
     this->code=code;
     this->name=name;
     fontSize=yLength-12;
-    font=al_load_ttf_font("font1.ttf",fontSize,0);
+    font=al_load_ttf_font("fonts/font1.ttf",fontSize,0);
     allegroColor = al_map_rgb( 0,  102, 102);
 }
 

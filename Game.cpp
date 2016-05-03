@@ -382,8 +382,15 @@ void Game::runPlay(string mapName)
             case Button::BUTTON_PLAY_START:
             {
                 Play play(this,&gameObjects);
-                play.run();
-                break;
+                switch(play.run())
+                {
+
+                    case Play::VICTORY_CODE:
+                        break;
+                    case Play::DEFEAT_CODE:
+                        break;
+                }
+                return;
             }
             default:
                 break;

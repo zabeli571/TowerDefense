@@ -1,6 +1,7 @@
 #include "Play.h"
 #include "Game.h"
 #include "Bullet.h"
+#include "Opponent.h"
 
 Play::Play(Game *game,vector<GameObject *> *gameObjects) {
     cout<<"konstruktor Play"<<endl;
@@ -14,7 +15,7 @@ Play::~Play()
     cout<<"destruktor Play"<<endl;
 }
 
-void Play::run()
+int Play::run()
 {
     ALLEGRO_MOUSE_STATE state;
     ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
@@ -32,6 +33,7 @@ void Play::run()
         eventTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
         if(eventTime.count() - lastEventTime.count() >= REFRESH_TIME) //aby nie przyspieszalo przy ruchu myszy
         {
+            lastEventTime = eventTime;
             for(int i=0;i<gameObjects->size();i++)
             {
                 for(int j=0;j<gameObjects->size();j++)
@@ -42,7 +44,7 @@ void Play::run()
                 }
                 if((*gameObjects)[i]->willDie())
                 {
-                    deleteDyingObject((*gameObjects)[i]);
+                    deleteObject((*gameObjects)[i]);
                 }
                 else
                 {
@@ -50,13 +52,20 @@ void Play::run()
                     (*gameObjects)[i]->doAction(this);
                 }
             }
-            lastEventTime = eventTime;
+            if(checkForWin())
+            {
+                return Play::VICTORY_CODE;
+            }
+            if(checkForOutsideField())
+            {
+                return Play::DEFEAT_CODE;
+            }
         }
         game->redraw();
     }
 }
 
-void Play:: deleteDyingObject(GameObject *gameObject)
+void Play:: deleteObject(GameObject *gameObject)
 {
     int i=0;
     for(i=0; i < gameObjects->size(); i++)
@@ -68,6 +77,39 @@ void Play:: deleteDyingObject(GameObject *gameObject)
     (*gameObjects).erase((*gameObjects).begin()+i);
 }
 
-void Play::addBullet(int column, int row) {
-    gameObjects->push_back(new Bullet(game->gameField,row,column));
+void Play::addObject(GameObject *gameObject) {
+    gameObjects->push_back(gameObject);
 }
+
+bool Play::checkForOutsideField()
+{
+    for(int i=0;i<gameObjects->size();i++)
+    {
+        if((*gameObjects)[i]->isOutsideField())
+        {
+            if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)
+            {
+                return true;
+            }
+            else
+            {
+                deleteObject((*gameObjects)[i]);
+            }
+        }
+    }
+    return false;
+}
+
+bool Play::checkForWin() {
+    for(int i=0;i<gameObjects->size();i++)
+    {
+        if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
