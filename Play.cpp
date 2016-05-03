@@ -1,5 +1,6 @@
 #include "Play.h"
 #include "Game.h"
+#include "Bullet.h"
 
 Play::Play(Game *game,vector<GameObject *> *gameObjects) {
     cout<<"konstruktor Play"<<endl;
@@ -46,7 +47,7 @@ void Play::run()
                 else
                 {
                     (*gameObjects)[i]->move();
-                    (*gameObjects)[i]->doAction();
+                    (*gameObjects)[i]->doAction(this);
                 }
             }
             lastEventTime = eventTime;
@@ -67,7 +68,6 @@ void Play:: deleteDyingObject(GameObject *gameObject)
     (*gameObjects).erase((*gameObjects).begin()+i);
 }
 
-
-
-
-
+void Play::addBullet(int column, int row) {
+    gameObjects->push_back(new Bullet(game->gameField,row,column));
+}

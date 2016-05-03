@@ -5,13 +5,13 @@
 class Game;
 
 class Play {
-    friend class Defence;
 private:
-    static const int REFRESH_TIME = 100;
+    static const int REFRESH_TIME = 50;
 
-    vector<GameObject*> *gameObjects;
+    vector<GameObject*> *gameObjects; //wskaznik na wektor GameObjectow
     Game *game;
 public:
+    void addBullet(int column, int row);
     Play(Game *game,vector<GameObject*> *gameObjects);
     ~Play();
     void run();

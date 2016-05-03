@@ -22,7 +22,8 @@ private:
     void collisionWithOpponent(Opponent *opponent);
     void collisionWithObstacle(Obstacle *obstacle);
     void collisionWithDefense(Defense *defense);
-    void doAction();
+    void collisionWithBullet(Bullet *bullet);
+    void doAction(Play *play);
 
 public:
     static const int OPPONENT_CODE = 10;

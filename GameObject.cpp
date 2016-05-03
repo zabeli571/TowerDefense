@@ -24,7 +24,7 @@ GameObject::GameObject(GameField *gameField)
 
 GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstruktor dla obstacle i opponent
 {
-    cout<<"\tkonstruktor GameObject"<<endl<<"\t";
+//    cout<<"\tkonstruktor GameObject"<<endl<<"\t";
     int xRelative,yRelative;
     gameField->getSquareRelativePos(row,column,&xRelative,&yRelative);
     gridXPos = column;
@@ -40,7 +40,7 @@ GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstru
 }
 
 GameObject::GameObject(GameField *gameField, ifstream *inputStream) {
-    cout<<"\tkonstruktor GameObject"<<endl<<"\t";
+//    cout<<"\tkonstruktor GameObject"<<endl<<"\t";
     int xRelative,yRelative, row, column;
     *inputStream >> column;
     *inputStream >> row;
@@ -77,7 +77,7 @@ void GameObject::displayOnConsole()
 
 GameObject::~GameObject()
 {
-    cout<<"\tdestruktor GameObject"<<endl<<"\t";
+//    cout<<"\tdestruktor GameObject"<<endl<<"\t";
 }
 
 void GameObject::saveToStream(ofstream *outputStream) {

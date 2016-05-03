@@ -11,7 +11,7 @@ using namespace std;
 class Defense: public GameObject
 {
 private:
-    static const int ATTACK_INTERVAL = 2000;
+    static const int ATTACK_INTERVAL = 3000;
     chrono::milliseconds lastAttackTime;
 
     void move();
@@ -19,7 +19,8 @@ private:
     void collisionWithOpponent(Opponent *opponent);
     void collisionWithObstacle(Obstacle *obstacle);
     void collisionWithDefense(Defense *defense);
-    void doAction();
+    void collisionWithBullet(Bullet *bullet);
+    void doAction(Play *play);
 public:
     static const int DEFENSE_CODE = 9;
     Defense(GameField *gameField, int hp);// przy konstruktorach defense, opponent, obstacle daje w argumentach wskaznik na gamefield by znac pole w ktorym chce narysowac

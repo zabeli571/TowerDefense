@@ -1,5 +1,7 @@
 #include "Obstacle.h"
 #include "Opponent.h"
+#include "Play.h"
+
 using namespace std;
 
 
@@ -23,7 +25,7 @@ Obstacle::Obstacle(GameField *gameField, int row, int column): GameObject(gameFi
 
 Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
 {
-    cout<<"\tkonstruktor Obstacle"<<endl;
+//    cout<<"\tkonstruktor Obstacle"<<endl;
     code = OBSTACLE_CODE;
     allegroColor=al_map_rgb(192,192,192);
     image = al_load_bitmap("bitmaps/obstacle.png");
@@ -31,7 +33,7 @@ Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(game
 
 Obstacle::~Obstacle()
 {
-    cout<<"destruktor Obstacle"<<endl;
+//    cout<<"destruktor Obstacle"<<endl;
 }
 
 void Obstacle::displayOnConsole() {
@@ -63,9 +65,15 @@ void Obstacle::collisionWithDefense(Defense *defense) {
 
 }
 
-void Obstacle::doAction() {
+void Obstacle::doAction(Play *play) {
 
 }
+
+void Obstacle::collisionWithBullet(Bullet *bullet) {
+
+}
+
+
 
 
 

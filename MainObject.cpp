@@ -15,7 +15,7 @@ int MainObject::getCodeIfClicked(int x, int y, MainObject **clickedObject)
 
 MainObject::~MainObject()
 {
-    cout << "\tdestruktor MainObject "<<endl;
+//    cout << "\tdestruktor MainObject "<<endl;
 }
 
 int MainObject::getCode()
@@ -29,7 +29,7 @@ void MainObject::changeColor(ALLEGRO_COLOR color) {
 
 MainObject::MainObject()
 {
-    cout<<"konstruktor MainObject"<<endl;
+//    cout<<"konstruktor MainObject"<<endl;
 }
 
 

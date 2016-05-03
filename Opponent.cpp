@@ -1,6 +1,8 @@
 #include "Opponent.h"
 #include "Obstacle.h"
 #include "Defense.h"
+#include "Play.h"
+
 using namespace std;
 
 
@@ -25,7 +27,7 @@ Opponent::Opponent(GameField *gameField, int row, int column): GameObject(gameFi
 
 Opponent::Opponent(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
 {
-    cout<<"\tkonstruktor Opponent"<<endl;
+//    cout<<"\tkonstruktor Opponent"<<endl;
     code = OPPONENT_CODE;
     allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/opponent.png");
@@ -35,7 +37,7 @@ Opponent::Opponent(GameField *gameField, ifstream *inputStream): GameObject(game
 
 Opponent::~Opponent()
 {
-    cout<<"destruktor Opponent"<<endl;
+//    cout<<"destruktor Opponent"<<endl;
 }
 
 void Opponent::displayOnConsole()
@@ -82,6 +84,10 @@ void Opponent::collisionWithDefense(Defense *defense) {
     }
 }
 
-void Opponent::doAction() {
+void Opponent::doAction(Play *play) {
+}
+
+void Opponent::collisionWithBullet(Bullet *bullet) {
 
 }
+

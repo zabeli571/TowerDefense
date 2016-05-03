@@ -9,6 +9,8 @@
 class Opponent;
 class Obstacle;
 class Defense;
+class Bullet;
+class Play;
 
 class GameObject : public MainObject
 {
@@ -37,7 +39,8 @@ public:
     virtual void collisionWithOpponent(Opponent *opponent) = 0;
     virtual void collisionWithObstacle(Obstacle *obstacle) = 0;
     virtual void collisionWithDefense(Defense *defense) = 0;
-    virtual void doAction() = 0;
+    virtual void collisionWithBullet(Bullet *bullet) = 0;
+    virtual void doAction(Play *play) = 0;
     virtual void move() = 0;
     bool willDie();
 
