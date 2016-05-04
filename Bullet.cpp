@@ -11,6 +11,12 @@ Bullet::Bullet(GameField *gameField, int row, int column) : GameObject(gameField
     allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/bullet.png");
     alreadyPunched = false;
+
+    int shrinkValue = xLength/2; //pomniejszam za duza pestke
+    xLength -= shrinkValue;
+    yLength -= shrinkValue;
+    x += shrinkValue/2;
+    y += shrinkValue/2;
 }
 
 Bullet::~Bullet()
