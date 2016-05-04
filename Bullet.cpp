@@ -13,18 +13,23 @@ Bullet::Bullet(GameField *gameField, int row, int column) : GameObject(gameField
     alreadyPunched = false;
 }
 
-Bullet::~Bullet() {
+Bullet::~Bullet()
+{
 //    cout<<"destruktor Bullet"<<endl;
 }
 
-void Bullet::collisionWith(GameObject *anotherObject) {
+void Bullet::collisionWith(GameObject *anotherObject)
+{
     anotherObject->collisionWithBullet(this);
 }
 
-void Bullet::collisionWithObstacle(Obstacle *obstacle) {
+void Bullet::collisionWithObstacle(Obstacle *obstacle)
+{
+    //brak interakcji
 }
 
-void Bullet::collisionWithOpponent(Opponent *opponent) {
+void Bullet::collisionWithOpponent(Opponent *opponent)
+{
     if(!alreadyPunched)
     {
         opponent->hp-=2;
@@ -33,15 +38,22 @@ void Bullet::collisionWithOpponent(Opponent *opponent) {
     }
 }
 
-void Bullet::collisionWithDefense(Defense *defense) {
+void Bullet::collisionWithDefense(Defense *defense)
+{
+    //brak interakcji
 }
 
-void Bullet::doAction(Play *play) {
+void Bullet::doAction(Play *play)
+{
+    //brak interakcji
 }
 
-void Bullet::collisionWithBullet(Bullet *bullet) {
+void Bullet::collisionWithBullet(Bullet *bullet)
+{
+    //brak interakcji
 }
 
-void Bullet::move() {
+void Bullet::move()
+{
     x+=5;
 }

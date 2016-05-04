@@ -38,40 +38,44 @@ void Defense::saveToStream(ofstream *outputStream) {
     GameObject::saveToStream(outputStream);
 }
 
-void Defense::move() {
+void Defense::move()
+{
     willMove = true;
 }
 
-void Defense::collisionWith(GameObject *anotherObject) {
-    anotherObject->collisionWithDefense(this);
+void Defense::collisionWith(GameObject *anotherObject) //do funkcji przekazany jest obiekt j
+{
+    anotherObject->collisionWithDefense(this); //poznamy typ j, wszystkie funkcje collision sa virtual, przekazuje siebie
 }
 
-void Defense::collisionWithOpponent(Opponent *opponent) {
-    opponent->willMove = false;
+void Defense::collisionWithOpponent(Opponent *opponent)
+{
+    opponent->willMove = false; //nie ruszy sie do momentu zniszczenia obrony
 }
 
 void Defense::collisionWithObstacle(Obstacle *obstacle)
 {
-
+    //brak interakcji
 }
 
 void Defense::collisionWithDefense(Defense *defense)
 {
-
+    //brak interakcji
 }
 
-void Defense::doAction(Play *play)
+void Defense::doAction(Play *play) //play zawiera wskaznik do wektora z gameobjectsami, do ktorego dodamy pociski
 {
     std::chrono::milliseconds eventTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
-    if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL)
+    if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL) //nie czesciej niz co 3s
     {
-        play->addObject(new Bullet(gameField,gridYPos,gridXPos));
+        play->addObject(new Bullet(gameField,gridYPos,gridXPos)); //tworze pociski
         lastAttackTime = eventTime;
     }
 }
 
-void Defense::collisionWithBullet(Bullet *bullet) {
-
+void Defense::collisionWithBullet(Bullet *bullet)
+{
+    //brak interakcji
 }
 
 

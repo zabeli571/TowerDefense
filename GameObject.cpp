@@ -48,7 +48,7 @@ GameObject::GameObject(GameField *gameField, ifstream *inputStream) {
     *inputStream >> row;
     *inputStream >> hp;
     gameField->getSquareRelativePos(row,column,&xRelative,&yRelative);
-    id = GameObject::getNextId();
+    id = GameObject::getNextId(); //dla kazdego obiektu wczytywanego z pliku nadajemy id
     gridXPos = column;
     gridYPos = row;
     gridXPosPx=xRelative;
@@ -83,11 +83,13 @@ GameObject::~GameObject()
 //    cout<<"\tdestruktor GameObject"<<endl<<"\t";
 }
 
-void GameObject::saveToStream(ofstream *outputStream) {
-    *outputStream << " " << code << " " << gridXPos << " " << gridYPos << " " << hp;
+void GameObject::saveToStream(ofstream *outputStream) //zapisujemy kod, pozycje, hp
+{
+    *outputStream << " " << code << " " << gridXPos << " " << gridYPos << " " << hp; //narazie kazdy obiekt ma te atrybuty
 }
 
-GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstream *inputStream) {
+GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstream *inputStream)
+{
     switch(code)
     {
         case Obstacle::OBSTACLE_CODE:
@@ -105,27 +107,30 @@ int GameObject::getNextId()
 }
 
 bool GameObject::areObjectsClashed(GameObject *first, GameObject *second) {
-    if(first->id == second->id)
+    if(first->id == second->id) //przypadek gdy obiekt zderzyl sie sam ze soba nie istnieje
     {
         return false;
     }
-    else
+    else //rysunek pomocniczy
     {
         return ((first->x <= second->x && first->x + first->xLength > second->x) || (second->x <= first->x && second->x + second->xLength > first->x))
                && ((first->y <= second->y && first->y+first->yLength > second->y)||(second->y <= first->y && second->y+second->yLength > first->y));
     }
 }
 
-bool GameObject::willDie() {
+bool GameObject::willDie()
+{
     return hp<=0;
 }
 
-void GameObject::resetIdCounter() {
+void GameObject::resetIdCounter()
+{
     GameObject::idCounter=0;
 }
 
-bool GameObject::isOutsideField() {
-    return x < gameField->x || x+xLength > gameField->x+gameField->xLength;
+bool GameObject::isOutsideField()
+{
+    return x < gameField->x || x+xLength > gameField->x+gameField->xLength; //rysunek pomocniczy
 }
 
 

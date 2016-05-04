@@ -36,41 +36,50 @@ Obstacle::~Obstacle()
 //    cout<<"destruktor Obstacle"<<endl;
 }
 
-void Obstacle::displayOnConsole() {
+void Obstacle::displayOnConsole()
+{
     cout<<"Obstacle dziedziczy po"<<endl;
     GameObject::displayOnConsole();
 }
 
-void Obstacle::saveToStream(ofstream *outputStream) {
+void Obstacle::saveToStream(ofstream *outputStream)
+{
     GameObject::saveToStream(outputStream);
 }
 
-void Obstacle::move() {
-    willMove = true;
+void Obstacle::move()
+{
+    willMove = true; //nie rusza sie
 }
 
-void Obstacle::collisionWith(GameObject *anotherObject) {
+void Obstacle::collisionWith(GameObject *anotherObject)
+{
     anotherObject->collisionWithObstacle(this);
 }
 
-void Obstacle::collisionWithOpponent(Opponent *opponent) {
-    opponent->willMove = false;
+void Obstacle::collisionWithOpponent(Opponent *opponent)
+{
+    opponent->willMove = false; //przeszkoda zatrzymuje przeciwnika
 }
 
-void Obstacle::collisionWithObstacle(Obstacle *obstacle) {
-
+void Obstacle::collisionWithObstacle(Obstacle *obstacle)
+{
+    //brak interakcji
 }
 
-void Obstacle::collisionWithDefense(Defense *defense) {
-
+void Obstacle::collisionWithDefense(Defense *defense)
+{
+    //brak interakcji
 }
 
-void Obstacle::doAction(Play *play) {
-
+void Obstacle::doAction(Play *play)
+{
+    //brak interakcji
 }
 
-void Obstacle::collisionWithBullet(Bullet *bullet) {
-
+void Obstacle::collisionWithBullet(Bullet *bullet)
+{
+    //brak interakcji
 }
 
 

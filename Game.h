@@ -13,6 +13,7 @@
 #include "HPButton.h"
 #include "Legend.h"
 #include "Play.h"
+#include "Statistics.h"
 #include <fstream>
 
 using namespace std;

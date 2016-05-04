@@ -134,7 +134,6 @@ int Game::getClickedObjectWithCode()
 
 
     }
-
 }
 
 void Game::runCreator()
@@ -341,13 +340,15 @@ void Game::redraw()
     al_flip_display();
 }
 
-void Game::saveObjects() {
-    ofstream outputStream("maps/"+ getNextMapName() +".izu");
-    outputStream << gameObjects.size();
-    for(int i=0;i<gameObjects.size();i++){
+void Game::saveObjects() //gdy wybierzemy przycisk zapisz
+{
+    ofstream outputStream("maps/"+ getNextMapName() +".izu"); // obiekt strumien-outputStream klasy ofstream, do konstruktora podaje sciezke
+    outputStream << gameObjects.size(); //zapisujemy ilosc obiektow
+    for(int i=0;i<gameObjects.size();i++) //iteruje sie po wszystkich obiektach na mapie gry
+    {
         gameObjects[i]->saveToStream(&outputStream);
     }
-    outputStream.close();
+    outputStream.close(); //zamyka strumien
 }
 
 void Game::loadObjects(string mapName)
@@ -360,7 +361,7 @@ void Game::loadObjects(string mapName)
         int code;
         inputStream >> code;
         GameObject *gameObject = GameObject::getGameObjectByCode(gameField,code,&inputStream);
-        gameObjects.push_back(gameObject);
+        gameObjects.push_back(gameObject); //stworzony w getGameObjectByCode nowy obiekt dodajemy do wektora
 
     }
     inputStream.close();
@@ -375,22 +376,23 @@ void Game::runPlay(string mapName)
 {
     deleteObjects();
     gameField = new GameField(GameField::GAME_FIELD_PLAY_CODE);//tworze obiekt gamefield
-    loadObjects(mapName);
-    drawPlay();
+    loadObjects(mapName); //tworze obiekty na podstawie danych z pliku
+    drawPlay(); //dodaje przyciski, pole gry i rysuje
     while(true) {
         switch (getClickedObjectWithCode()) {
             case Button::BUTTON_PLAY_START:
             {
-                Play play(this,&gameObjects);
-                switch(play.run())
+                Statistics statistics;
+                Play play(this,&gameObjects, &statistics); //tworze nowy obiekt play przekazuje game i adres do wektora obiektow wczytanych z pliku
+                int score = play.run(); //zaczyna sie gra
+                statistics.setPlayFinished(score);
+                statistics.countDefendersStand(&gameObjects);
+                statistics.draw();
+                switch (statistics.getButtonCodeWhenClicked())
                 {
-
-                    case Play::VICTORY_CODE:
-                        break;
-                    case Play::DEFEAT_CODE:
-                        break;
+                    case Statistics::BACK_CODE:
+                        return;
                 }
-                return;
             }
             default:
                 break;
@@ -400,7 +402,7 @@ void Game::runPlay(string mapName)
 
 void Game::drawPlay()
 {
-    interfaceObjects.push_back(new Button(400, 500 ,200,100, Button::BUTTON_PLAY_START , "START"));
-    interfaceObjects.push_back(gameField);
+    interfaceObjects.push_back(new Button(400, 500 ,200,100, Button::BUTTON_PLAY_START , "START")); //dodaje przycisk START
+    interfaceObjects.push_back(gameField); //dodaje gamefield
     redraw();
 }

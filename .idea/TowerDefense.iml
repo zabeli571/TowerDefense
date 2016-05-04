@@ -21,12 +21,14 @@
       <sourceFolder url="file://$MODULE_DIR$/Button.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Button.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Statistics.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MenuButton.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Constants.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Bullet.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CreatorButton.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Play.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Obstacle.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Statistics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CreatorButton.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Opponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/GameField.h" isTestSource="false" />

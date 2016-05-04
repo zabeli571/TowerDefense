@@ -6,7 +6,10 @@ int MainObject::getCodeIfClicked(int x, int y, MainObject **clickedObject)
     {
         clickXPos=x;//state.x
         clickYPos=y;
-        *clickedObject=this;//this tzn ten gameobjects[i], w ktorym jestesmy teraz
+        if(clickedObject != NULL)
+        {
+            *clickedObject=this;//this tzn ten gameobjects[i], w ktorym jestesmy teraz
+        }
         return code;
     }
     else

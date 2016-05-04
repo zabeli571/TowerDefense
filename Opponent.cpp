@@ -50,7 +50,8 @@ void Opponent::saveToStream(ofstream *outputStream) {
     GameObject::saveToStream(outputStream);
 }
 
-void Opponent::move() {
+void Opponent::move()
+{
     if(willMove)
     {
         x--;
@@ -58,36 +59,43 @@ void Opponent::move() {
     willMove = true;
 }
 
-void Opponent::collisionWith(GameObject *anotherObject) {
+void Opponent::collisionWith(GameObject *anotherObject)
+{
     anotherObject->collisionWithOpponent(this);
 }
 
-void Opponent::collisionWithObstacle(Obstacle *obstacle) {
+void Opponent::collisionWithObstacle(Obstacle *obstacle)
+{
     std::chrono::milliseconds eventTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
-    if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL)
+    if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL) //wykorzystuje roznice czasu tak jak w play::run
     {
-        obstacle->hp--;
+        obstacle->hp--; //przeciwnik zabiera hp przeszkody
         lastAttackTime = eventTime;
     }
 }
 
-void Opponent::collisionWithOpponent(Opponent *opponent) {
-
+void Opponent::collisionWithOpponent(Opponent *opponent)
+{
+    //brak interakcji
 }
 
-void Opponent::collisionWithDefense(Defense *defense) {
+void Opponent::collisionWithDefense(Defense *defense)
+{
     std::chrono::milliseconds eventTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
     if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL)
     {
-        defense->hp--;
+        defense->hp--; //przeciwnik zabiera hp obrony
         lastAttackTime = eventTime;
     }
 }
 
-void Opponent::doAction(Play *play) {
+void Opponent::doAction(Play *play)
+{
+    //brak interakcji
 }
 
-void Opponent::collisionWithBullet(Bullet *bullet) {
-
+void Opponent::collisionWithBullet(Bullet *bullet)
+{
+    //interakcja opisana juz w Bullet::collisionWithOpponent
 }
 
