@@ -5,10 +5,10 @@
 using namespace std;
 
 
-Defense::Defense(GameField *gameField, int hp): GameObject(gameField)
+Defense::Defense(GameField *gameField): GameObject(gameField)
 {
     cout<<"\tkonstruktor Defense"<<endl;
-    this->hp=hp;
+    hp = 10;
     code = DEFENSE_CODE;
     allegroColor=al_map_rgb(0,153,0);
     image = al_load_bitmap("bitmaps/defense.png");

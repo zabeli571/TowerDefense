@@ -143,8 +143,9 @@ void Game::runCreator()
         switch(getClickedObjectWithCode())
         {
             case CreatorButton::CREATOR_BUTTON_CODE_ADD_TOWER:
-                createHPButtons();
-                gameState = GAME_STATE_ADD_HP;
+//                createHPButtons();
+//                gameState = GAME_STATE_ADD_HP;
+                gameState=GAME_STATE_ADD_DEFENSE;
                 break;
             case CreatorButton::CREATOR_BUTTON_CODE_ADD_OPPONENT:
                 gameState = GAME_STATE_ADD_OPPONENT;
@@ -197,8 +198,8 @@ void Game::runCreator()
             case GameField::GAME_FIELD_CREATOR_CODE:
                 if(gameState==GAME_STATE_ADD_DEFENSE)
                 {
-                    deleteHPButtons();
-                    Defense *defense=new Defense(gameField, selectedHP); //tworze, ale jeszcze nie rysuje
+//                    deleteHPButtons();
+                    Defense *defense=new Defense(gameField); //tworze, ale jeszcze nie rysuje
                     gameObjects.push_back(defense);//dodaje do worka z obiektami
                     gameState=GAME_STATE_IDLE;
                 }
@@ -310,7 +311,7 @@ void Game::changeState()
                     interfaceObjects[i]->changeColor(al_map_rgb(0,  102, 102));
                 }
             }
-            clickedObject->changeColor(al_map_rgb(255,  153, 153));
+//            clickedObject->changeColor(al_map_rgb(255,  153, 153));
             break;
         case GAME_STATE_ADD_OPPONENT:
         case GAME_STATE_ADD_OBSTACLE:

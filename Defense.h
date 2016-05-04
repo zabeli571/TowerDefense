@@ -23,7 +23,7 @@ private:
     void doAction(Play *play);
 public:
     static const int DEFENSE_CODE = 9;
-    Defense(GameField *gameField, int hp);// przy konstruktorach defense, opponent, obstacle daje w argumentach wskaznik na gamefield by znac pole w ktorym chce narysowac
+    Defense(GameField *gameField);// przy konstruktorach defense, opponent, obstacle daje w argumentach wskaznik na gamefield by znac pole w ktorym chce narysowac
     Defense(GameField *gameField, ifstream *inputStream);
 
     void displayOnConsole();
