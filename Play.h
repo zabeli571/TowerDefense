@@ -6,13 +6,14 @@
 
 class Game;
 
-class Play {
+class Play
+{
 private:
     static const int REFRESH_TIME = 50;
 
-    vector<GameObject*> *gameObjects; //wskaznik na wektor  ze wskaznikami na GameObjecty
+    vector<GameObject*> *gameObjects; //wskaznik na wektor wskaznikow na GameObjecty
     Game *game;
-    Statistics *statistics;
+    Statistics *statistics; //wskaznik na obiekt statistics
 
     void deleteObject(GameObject *gameObject);
     bool checkForOutsideField();

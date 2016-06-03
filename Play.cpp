@@ -31,7 +31,7 @@ int Play::run()
         ALLEGRO_EVENT ev;
         ALLEGRO_TIMEOUT timeout;
         al_init_timeout(&timeout, ((double)REFRESH_TIME)/((double)1000)); //refresh_time=50ms
-        al_wait_for_event_until(event_queue, &ev,&timeout);//funkcja czeka na event myszy lub wypuszcza po timeoucie
+        al_wait_for_event_until(event_queue, &ev,&timeout);//funkcja zatrzymuje dzialanie programu do czasu eventu myszy lub miniecia timeoutu
         eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()); //zapisywanie czasu od 1970
         if(eventTime.count() - lastEventTime.count() >= REFRESH_TIME) //aby nie wykonywalo sie co chwile przy ruchu myszy, funkcja wykonuje sie przynajmniej co 50ms
         {
@@ -52,7 +52,7 @@ int Play::run()
                     {
                         statistics->addOpponentDefeated(); //dodajemy do statystyk pokonanego przeciwnika
                     }
-                    deleteObject((*gameObjects)[i]);
+                    deleteObject((*gameObjects)[i]); //hp <= 0 usuwamy
                 }
                 else
                 {
@@ -90,7 +90,7 @@ void Play::addObject(GameObject *gameObject)
     gameObjects->push_back(gameObject);
 }
 
-bool Play::checkForOutsideField()
+bool Play::checkForOutsideField()//przegrywam gdy opoonent przekroczy pole gry, gdy pocisk przekroczy pole gry zostaje usuniety
 {
     for(int i=0;i<gameObjects->size();i++)
     {
@@ -109,10 +109,11 @@ bool Play::checkForOutsideField()
     return false;
 }
 
-bool Play::checkForWin() {
+bool Play::checkForWin()
+{
     for(int i=0;i<gameObjects->size();i++)
     {
-        if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)
+        if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)//sprawdzam czy na planszy sa jeszcze przeciwnicy
         {
             return false;
         }

@@ -36,7 +36,7 @@ void Bullet::collisionWithObstacle(Obstacle *obstacle)
 
 void Bullet::collisionWithOpponent(Opponent *opponent)
 {
-    if(!alreadyPunched)
+    if(!alreadyPunched) //bullet uderza tylko raz i znika
     {
         opponent->hp-=2;
         hp--;

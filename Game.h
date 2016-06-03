@@ -31,7 +31,7 @@ private:
     int gameState;
     int selectedHP;
     GameField *gameField;
-    vector<MainObject*> interfaceObjects;//button,gamefield
+    vector<MainObject*> interfaceObjects;//button,gamefield - wektor wskaznikow na mainobject
     vector<GameObject*> gameObjects;//tylko defense,opponents,obstacles
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_FONT *font=NULL;

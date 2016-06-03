@@ -29,12 +29,14 @@ Defense::~Defense()
 //    cout<<"destruktor Defense"<<endl;
 }
 
-void Defense::displayOnConsole() {
+void Defense::displayOnConsole()
+{
     cout<<"Defense, dziedziczy po"<<endl;
     GameObject::displayOnConsole();
 }
 
-void Defense::saveToStream(ofstream *outputStream) {
+void Defense::saveToStream(ofstream *outputStream)
+{
     GameObject::saveToStream(outputStream);
 }
 

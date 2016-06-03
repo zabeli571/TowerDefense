@@ -41,7 +41,8 @@ GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstru
     this->gameField = gameField;
 }
 
-GameObject::GameObject(GameField *gameField, ifstream *inputStream) {
+GameObject::GameObject(GameField *gameField, ifstream *inputStream) //dla wczytywanych z pliku
+{
 //    cout<<"\tkonstruktor GameObject"<<endl<<"\t";
     int xRelative,yRelative, row, column;
     *inputStream >> column;

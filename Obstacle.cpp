@@ -23,7 +23,7 @@ Obstacle::Obstacle(GameField *gameField, int row, int column): GameObject(gameFi
     image = al_load_bitmap("bitmaps/obstacle.png");
 }
 
-Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
+Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)
 {
 //    cout<<"\tkonstruktor Obstacle"<<endl;
     code = OBSTACLE_CODE;

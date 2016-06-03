@@ -29,7 +29,7 @@ Statistics::~Statistics()
 
 void Statistics::draw()
 {
-    al_draw_scaled_bitmap(image,0,0,al_get_bitmap_width(image), al_get_bitmap_height(image),x,y,xLength,yLength,0);
+    al_draw_scaled_bitmap(image,0,0,al_get_bitmap_width(image), al_get_bitmap_height(image),x,y,xLength,yLength,0); //image pobieram w setPlayFinished
     al_draw_text(font, al_map_rgba(255,  229, 204,128),x+xLength/2 +50,y+yLength/2-fontSize/2-85,ALLEGRO_ALIGN_LEFT,createPointsString(opponentsDefeated,POINTS_PER_OPPONENT).c_str());
     al_draw_text(font, al_map_rgba(255,  229, 204,128),x+xLength/2 +50,y+yLength/2-fontSize/2-35,ALLEGRO_ALIGN_LEFT,createPointsString(defensesStand,POINTS_PER_DEFENSE).c_str());
     al_draw_text(font, al_map_rgba(255,  229, 204,128),x+xLength/2 +50,y+yLength/2-fontSize/2+15,ALLEGRO_ALIGN_LEFT,createPointsString(obstaclesStand,POINTS_PER_OBSTACLE).c_str());
@@ -46,12 +46,12 @@ void Statistics::setPlayFinished(int code)
 {
     if(code == Play::VICTORY_CODE)
     {
-        points +=10;
+        points +=10; //za wygrana +10pkt
         image = al_load_bitmap("layouts/winner.png");
     }
     else
     {
-        points -=10;
+        points -=10; //za przegrana -10pkt
         image = al_load_bitmap("layouts/looser.png");
     }
 }
@@ -92,7 +92,8 @@ string Statistics::createPointsString(int item, int pointsPerItem)
     return str;
 }
 
-int Statistics::getButtonCodeWhenClicked() {
+int Statistics::getButtonCodeWhenClicked()
+{
     ALLEGRO_MOUSE_STATE state;
     ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
     al_register_event_source(event_queue, al_get_mouse_event_source());
@@ -103,7 +104,8 @@ int Statistics::getButtonCodeWhenClicked() {
         al_get_mouse_state(&state);
         if (state.buttons & 1)//spr czy klikniety
         {
-            if(backButton->getCodeIfClicked(state.x,state.y,NULL)){
+            if(backButton->getCodeIfClicked(state.x,state.y,NULL))
+            {
                 return BACK_CODE;
             }
         }

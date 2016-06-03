@@ -225,7 +225,7 @@ void Game::runCreator()
                     gameState=GAME_STATE_IDLE;
                 }
                 break;
-            case CreatorButton::CREATOR_BUTTON_CODE_SAVE:
+            case CreatorButton::CREATOR_BUTTON_CODE_SAVE: //klikam zapisz
                 saveObjects();
                 return;
             case CreatorButton::CREATOR_BUTTON_CODE_RETURN:
@@ -345,7 +345,7 @@ void Game::saveObjects() //gdy wybierzemy przycisk zapisz
 {
     ofstream outputStream("maps/"+ getNextMapName() +".izu"); // obiekt strumien-outputStream klasy ofstream, do konstruktora podaje sciezke
     outputStream << gameObjects.size(); //zapisujemy ilosc obiektow
-    for(int i=0;i<gameObjects.size();i++) //iteruje sie po wszystkich obiektach na mapie gry
+    for(int i=0;i<gameObjects.size();i++)
     {
         gameObjects[i]->saveToStream(&outputStream);
     }
@@ -370,7 +370,7 @@ void Game::loadObjects(string mapName)
 
 string Game::getNextMapName()
 {
-    return "map1";
+    return "map1"; //narazie mam 1 mape
 }
 
 void Game::runPlay(string mapName)
@@ -383,16 +383,16 @@ void Game::runPlay(string mapName)
         switch (getClickedObjectWithCode()) {
             case Button::BUTTON_PLAY_START:
             {
-                Statistics statistics;
+                Statistics statistics; //tworzymy obiekt statistics
                 Play play(this,&gameObjects, &statistics); //tworze nowy obiekt play przekazuje game i adres do wektora obiektow wczytanych z pliku
                 int score = play.run(); //zaczyna sie gra
                 statistics.setPlayFinished(score);
-                statistics.countDefendersStand(&gameObjects);
-                statistics.draw();
+                statistics.countDefendersStand(&gameObjects); //licze chomiki i przeszkody, ktore pozostaly
+                statistics.draw(); //rysuje statystyki
                 switch (statistics.getButtonCodeWhenClicked())
                 {
                     case Statistics::BACK_CODE:
-                        return;
+                        return; //wychodze z tej funkcji, wiec az do menu
                 }
             }
             default:

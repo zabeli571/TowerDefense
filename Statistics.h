@@ -24,15 +24,15 @@ private:
     string createPointsString(int item, int pointsPerItem);
 public:
     static const int BACK_CODE = 0;
-    static const int NEXT_LEVEL_CODE = 1;
+    //static const int NEXT_LEVEL_CODE = 1;
 
     Statistics();
     ~Statistics();
     void draw();
-    void setPlayFinished(int code);
-    void addOpponentDefeated();
-    void countDefendersStand(vector<GameObject*> *gameObjects);
-    int getButtonCodeWhenClicked();
+    void setPlayFinished(int code); //zaladuje bitmape wygranej lub przegranej
+    void addOpponentDefeated(); //dodaje kolejnego pokonanego przeciwnika
+    void countDefendersStand(vector<GameObject*> *gameObjects); //zliczam obstacle i defense, ktore przezyly
+    int getButtonCodeWhenClicked(); //zwroci back_code gdy wybiore przycisk powrot
 };
 
 
