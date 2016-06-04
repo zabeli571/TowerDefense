@@ -21,6 +21,7 @@ GameObject::GameObject(GameField *gameField)
     x=gameFieldX+gridXPosPx;
     y=gameFieldY+gridYPosPx;
     this->gameField = gameField;
+    id = GameObject::getNextId();
 }
 
 GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstruktor dla obstacle i opponent
@@ -95,11 +96,32 @@ GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstr
     switch(code)
     {
         case Obstacle::OBSTACLE_CODE:
-            return new Obstacle(gameField,inputStream);
+            if(inputStream==NULL)
+            {
+                return new Obstacle(gameField);
+            }
+            else
+            {
+                return new Obstacle(gameField,inputStream);
+            }
         case Defense::DEFENSE_CODE:
-            return new Defense(gameField,inputStream);
+            if(inputStream==NULL)
+            {
+                return new Defense(gameField);
+            }
+            else
+            {
+                return new Defense(gameField,inputStream);
+            }
         case Opponent::OPPONENT_CODE:
-            return new Opponent(gameField,inputStream);
+            if(inputStream==NULL)
+            {
+                return new Opponent(gameField);
+            }
+            else
+            {
+                return new Opponent(gameField,inputStream);
+            }
     }
 }
 

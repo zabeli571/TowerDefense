@@ -5,6 +5,9 @@
 #include "Text.h"
 #include "NumberField.h"
 #include "ProgressField.h"
+#include "GameObjectSelector.h"
+#include "Defense.h"
+#include "Obstacle.h"
 
 Play::Play(string mapName, Game *game,vector<GameObject *> *gameObjects, vector<MainObject*> *interfaceObjects, Statistics *statistics)
 {
@@ -14,6 +17,7 @@ Play::Play(string mapName, Game *game,vector<GameObject *> *gameObjects, vector<
     this->interfaceObjects = interfaceObjects;
     this->statistics = statistics;
     GameObject::resetIdCounter(); //ustawiam na 0
+    gameField = new GameField(GameField::GAME_FIELD_PLAY_CODE);
     loadObjects(mapName);
 }
 
@@ -45,6 +49,7 @@ int Play::run()
         }
         eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()); //zapisywanie czasu od 1970
         manageWaveReady(eventTime.count());
+        manageGameObjectSelectorsState();
         if(eventTime.count() - lastEventTime.count() >= REFRESH_TIME) //aby nie wykonywalo sie co chwile przy ruchu myszy, funkcja wykonuje sie przynajmniej co 50ms
         {
             lastEventTime = eventTime;
@@ -62,6 +67,7 @@ int Play::run()
                 {
                     if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)
                     {
+                        money += 50;
                         statistics->addOpponentDefeated(); //dodajemy do statystyk pokonanego przeciwnika
                     }
                     deleteObject((*gameObjects)[i]); //hp <= 0 usuwamy
@@ -125,14 +131,17 @@ bool Play::checkForOutsideField()//przegrywam gdy opponent przekroczy pole gry, 
 
 bool Play::checkForWin()
 {
-    for(int i=0;i<gameObjects->size();i++)
+    if(waves == 0)
     {
-        if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)//sprawdzam czy na planszy sa jeszcze przeciwnicy
-        {
-            return false;
+        for (int i = 0; i < gameObjects->size(); i++) {
+            if ((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)//sprawdzam czy na planszy sa jeszcze przeciwnicy
+            {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
+    return false;
 }
 
 
@@ -148,7 +157,7 @@ void Play::loadObjects(string mapName)
     {
         int code;
         inputStream >> code;
-        GameObject *gameObject = GameObject::getGameObjectByCode(&gameField,code,&inputStream);
+        GameObject *gameObject = GameObject::getGameObjectByCode(gameField,code,&inputStream);
         gameObjects->push_back(gameObject); //stworzony w getGameObjectByCode nowy obiekt dodajemy do wektora
 
     }
@@ -158,7 +167,7 @@ void Play::loadObjects(string mapName)
 void Play::drawPlay()
 {
     interfaceObjects->push_back(new Button(910, 20 ,80,50, Button::BUTTON_PLAY_MENU , "MENU")); //dodaje przycisk MENU
-    interfaceObjects->push_back(&gameField); //dodaje gamefield
+    interfaceObjects->push_back(gameField); //dodaje gamefield
     interfaceObjects->push_back(new Text(100,470,30,"Liczba monet",ALLEGRO_ALIGN_LEFT));
     interfaceObjects->push_back(new NumberField(250,470,30,&money));
     interfaceObjects->push_back(new Text(450,470,30,"Zostalo fal",ALLEGRO_ALIGN_LEFT));
@@ -167,7 +176,15 @@ void Play::drawPlay()
     interfaceObjects->push_back(new NumberField(850,470,30,&frequency));
     interfaceObjects->push_back(new Text(450,545,30,"Czas do nastepnej fali przeciwnikow",ALLEGRO_ALIGN_LEFT));
 
-    interfaceObjects->push_back(&progressField);
+    GameObjectSelector *gameObjectSelector = new GameObjectSelector(25,50,50,50,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE);
+    gameObjectsSelectors.push_back(gameObjectSelector);
+    interfaceObjects->push_back(gameObjectSelector);
+    gameObjectSelector = new GameObjectSelector(25,125,50,50,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_OBSTACLE);
+    gameObjectsSelectors.push_back(gameObjectSelector);
+    interfaceObjects->push_back(gameObjectSelector);
+
+    progressField =new ProgressField(750,550,150,30);
+    interfaceObjects->push_back(progressField);
 }
 
 void Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state) {
@@ -175,6 +192,25 @@ void Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state) {
     if(getCodeIfClicked(state, &code))
     {
         switch (code){
+            case GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE:
+            case GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_OBSTACLE:
+                {
+                    GameObjectSelector* gameObjectSelector = getSelectorByClicked();
+                    if(gameObjectSelector->getState() == MainObject::STATE_CODE_NORMAL)
+                    {
+                        gameObjectSelector->setState(MainObject::STATE_CODE_CLICKED);
+                        addGameObjectCode = gameObjectSelector->getGameObjectCode();
+                    }
+                }
+                break;
+            case GameField::GAME_FIELD_PLAY_CODE:
+                if(addGameObjectCode!=0)
+                {
+                    money -= getSelectorByCode()->getPrice();
+                    gameObjects->push_back(GameObject::getGameObjectByCode(gameField,addGameObjectCode,NULL));
+                    addGameObjectCode = 0;
+                }
+                break;
             case Button::BUTTON_PLAY_MENU:
                 cout<<"MENU!";
                 break;
@@ -209,14 +245,14 @@ void Play::manageWaveReady(long long int currentTime) {
     {
         if(currentTime - lastWaveTime > (frequency*1000))
         {
-            progressField.setProgress(100);
+            progressField->setProgress(100);
             lastWaveTime = currentTime;
             waves--;
             createWave();
         } else
         {
             int progress = ((double)(currentTime-lastWaveTime)/(frequency*1000)*100);
-            progressField.setProgress(progress);
+            progressField->setProgress(progress);
         }
     }
 }
@@ -224,9 +260,51 @@ void Play::manageWaveReady(long long int currentTime) {
 void Play::createWave() {
     for(int i=1;i<=5;i++)
     {
-        gameObjects->push_back(new Opponent(&gameField,i,10));
+        gameObjects->push_back(new Opponent(gameField,i,10));
     }
 }
+
+void Play::manageGameObjectSelectorsState()
+{
+    for(int i=0; i < gameObjectsSelectors.size(); i++)
+    {
+        if(money < gameObjectsSelectors[i]->getPrice())
+        {
+            gameObjectsSelectors[i]->setState(MainObject::STATE_CODE_DISABLED);
+        }
+        else
+        {
+            if(gameObjectsSelectors[i]->getGameObjectCode() != addGameObjectCode)
+            {
+                gameObjectsSelectors[i]->setState(MainObject::STATE_CODE_NORMAL);
+            }
+        }
+    }
+}
+
+GameObjectSelector* Play::getSelectorByCode() {
+    for(int i=0; i < gameObjectsSelectors.size(); i++)
+    {
+        if(gameObjectsSelectors[i]->getGameObjectCode() == addGameObjectCode){
+            return gameObjectsSelectors[i];
+        }
+    }
+}
+
+GameObjectSelector *Play::getSelectorByClicked() {
+    for(int i=0; i < gameObjectsSelectors.size(); i++)
+    {
+        if(gameObjectsSelectors[i] == clickedObject){
+            return gameObjectsSelectors[i];
+        }
+    }
+}
+
+
+
+
+
+
 
 
 

@@ -35,6 +35,17 @@ MainObject::MainObject()
 //    cout<<"konstruktor MainObject"<<endl;
 }
 
+void MainObject::setState(int state)
+{
+    this->state = state;
+}
+
+int MainObject::getState()
+{
+    return state;
+}
+
+
 
 
 
