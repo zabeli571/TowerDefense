@@ -2,6 +2,7 @@
 #include "Opponent.h"
 #include "Obstacle.h"
 #include "Defense.h"
+#include "DefenseIce.h"
 
 int GameObject::idCounter = 0;
 
@@ -50,6 +51,7 @@ GameObject::GameObject(GameField *gameField, ifstream *inputStream) //dla wczyty
     *inputStream >> column;
     *inputStream >> row;
     *inputStream >> hp;
+    initialHP = hp;
     gameField->getSquareRelativePos(row,column,&xRelative,&yRelative);
     id = GameObject::getNextId(); //dla kazdego obiektu wczytywanego z pliku nadajemy id
     gridXPos = column;
@@ -67,8 +69,14 @@ GameObject::GameObject(GameField *gameField, ifstream *inputStream) //dla wczyty
 
 void GameObject::draw()
 {
-//    al_draw_filled_rectangle(x+1, y+1, x+xLength-1, y+yLength-1, allegroColor);
-    al_draw_scaled_bitmap(image,0,0,al_get_bitmap_width(image), al_get_bitmap_height(image),x,y,xLength,yLength,0);
+    if(hp <= (double)initialHP/2)
+    {
+        al_draw_scaled_bitmap(imageHalfHP,0,0,al_get_bitmap_width(imageHalfHP), al_get_bitmap_height(imageHalfHP),x,y,xLength,yLength,0);
+    }
+    else
+    {
+        al_draw_scaled_bitmap(image,0,0,al_get_bitmap_width(image), al_get_bitmap_height(image),x,y,xLength,yLength,0);
+    }
 }
 
 bool GameObject::isItsPosition(int randomRow, int randomColumn)
@@ -112,6 +120,15 @@ GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstr
             else
             {
                 return new Defense(gameField,inputStream);
+            }
+        case DefenseIce::DEFENSE_ICE_CODE:
+            if(inputStream==NULL)
+            {
+                return new DefenseIce(gameField);
+            }
+            else
+            {
+                return new DefenseIce(gameField,inputStream);
             }
         case Opponent::OPPONENT_CODE:
             if(inputStream==NULL)

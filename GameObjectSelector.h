@@ -10,6 +10,7 @@ private:
     int gameObjectCode;
 public:
     static const int GAME_OBJECT_SELECTOR_CODE_DEFENSE = 20002;
+    static const int GAME_OBJECT_SELECTOR_CODE_DEFENSE_ICE = 200022;
     static const int GAME_OBJECT_SELECTOR_CODE_OBSTACLE = 20003;
 
     GameObjectSelector(int x, int y, int xLength, int yLength, int code);

@@ -1,6 +1,7 @@
 #include "GameObjectSelector.h"
 #include "Defense.h"
 #include "Obstacle.h"
+#include "DefenseIce.h"
 
 GameObjectSelector::GameObjectSelector(int x, int y, int xLength, int yLength, int code) {
     cout<<"\tkonstruktor GameObjectSelector"<<endl;
@@ -16,6 +17,11 @@ GameObjectSelector::GameObjectSelector(int x, int y, int xLength, int yLength, i
             imageName = "bitmaps/defense.png";
             price = 150;
             gameObjectCode = Defense::DEFENSE_CODE;
+            break;
+        case GAME_OBJECT_SELECTOR_CODE_DEFENSE_ICE :
+            imageName = "bitmaps/defense_ice.png";
+            price = 200;
+            gameObjectCode = DefenseIce::DEFENSE_ICE_CODE;
             break;
         case GAME_OBJECT_SELECTOR_CODE_OBSTACLE :
             imageName = "bitmaps/obstacle.png";

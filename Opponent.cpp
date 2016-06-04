@@ -12,8 +12,10 @@ Opponent::Opponent(GameField *gameField): GameObject(gameField)
     cout<<"\tkonstruktor Opponent"<<endl;
     code = OPPONENT_CODE;
     hp=10;
+    initialHP = hp;
     allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/opponent.png");
+    imageHalfHP = al_load_bitmap("bitmaps/opponent_halfHP.png");
 }
 
 Opponent::Opponent(GameField *gameField, int row, int column): GameObject(gameField,row,column)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
@@ -21,8 +23,10 @@ Opponent::Opponent(GameField *gameField, int row, int column): GameObject(gameFi
     cout<<"\tkonstruktor Opponent"<<endl;
     code = OPPONENT_CODE;
     hp=10;
+    initialHP = hp;
     allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/opponent.png");
+    imageHalfHP = al_load_bitmap("bitmaps/opponent_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
 }
 
@@ -32,7 +36,7 @@ Opponent::Opponent(GameField *gameField, ifstream *inputStream): GameObject(game
     code = OPPONENT_CODE;
     allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/opponent.png");
-
+    imageHalfHP = al_load_bitmap("bitmaps/opponent_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
 }
 
@@ -55,7 +59,11 @@ void Opponent::move()
 {
     if(willMove)
     {
-        x--;
+        std::chrono::milliseconds eventTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+        if(eventTime.count() - freezeTimeStamp > 3000)
+        {
+            x--;
+        }
     }
     willMove = true;
 }
@@ -99,4 +107,11 @@ void Opponent::collisionWithBullet(Bullet *bullet)
 {
     //interakcja opisana juz w Bullet::collisionWithOpponent
 }
+
+void Opponent::freeze()
+{
+    freezeTimeStamp = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch()).count();
+}
+
+
 

@@ -16,7 +16,7 @@ GameField::GameField(int code) {
             columns = CREATOR_COLUMNS;
             break;
         case GAME_FIELD_PLAY_CODE :
-            allegroColor=al_map_rgb( 0,  102, 102);
+            allegroColor=al_map_rgb( 255,  229, 204);
             x=PLAY_XPOS;
             y=PLAY_YPOS;
             xLength=PLAY_WIDTH;
@@ -37,11 +37,11 @@ void GameField::draw()
     al_draw_filled_rectangle(x, y, x+xLength, y+yLength, allegroColor);
     for(int i=0;i<6;i++)
     {
-        al_draw_line(x, y +i*getSquareSize(), x + xLength, y +i*getSquareSize() , al_map_rgb(255,  229, 204), 2);
+        al_draw_line(x, y +i*getSquareSize(), x + xLength, y +i*getSquareSize() , al_map_rgb(204,  204, 255), 2);
     }
     for(int i=0;i<11;i++)
     {
-        al_draw_line(x +i*getSquareSize(), y, x  +i*getSquareSize(), y + yLength , al_map_rgb(255,  229, 204), 2);
+        al_draw_line(x +i*getSquareSize(), y, x  +i*getSquareSize(), y + yLength , al_map_rgb(204,  204, 255), 2);
     }
 }
 

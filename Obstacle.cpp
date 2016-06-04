@@ -10,8 +10,10 @@ Obstacle::Obstacle(GameField *gameField): GameObject(gameField)
     cout<<"\tkonstruktor Obstacle"<<endl;
     code = OBSTACLE_CODE;
     hp=20;
+    initialHP = hp;
     allegroColor=al_map_rgb(192,192,192);
     image = al_load_bitmap("bitmaps/obstacle.png");
+    imageHalfHP = al_load_bitmap("bitmaps/obstacle_halfHP.png");
 }
 
 Obstacle::Obstacle(GameField *gameField, int row, int column): GameObject(gameField,row,column)//uzywany do losowania
@@ -19,8 +21,10 @@ Obstacle::Obstacle(GameField *gameField, int row, int column): GameObject(gameFi
     cout<<"\tkonstruktor Obstacle"<<endl;
     code = OBSTACLE_CODE;
     hp=20;
+    initialHP = hp;
     allegroColor=al_map_rgb(192,192,192);
     image = al_load_bitmap("bitmaps/obstacle.png");
+    imageHalfHP = al_load_bitmap("bitmaps/obstacle_halfHP.png");
 }
 
 Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)
@@ -29,6 +33,7 @@ Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(game
     code = OBSTACLE_CODE;
     allegroColor=al_map_rgb(192,192,192);
     image = al_load_bitmap("bitmaps/obstacle.png");
+    imageHalfHP = al_load_bitmap("bitmaps/obstacle_halfHP.png");
 }
 
 Obstacle::~Obstacle()

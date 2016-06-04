@@ -8,8 +8,11 @@ Bullet::Bullet(GameField *gameField, int row, int column) : GameObject(gameField
 //    cout<<"\tkonstruktor Bullet"<<endl;
     code = BULLET_CODE;
     hp=1;
+    initialHP = hp;
     allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/bullet.png");
+    imageHalfHP = al_load_bitmap("bitmaps/bullet.png");
+
     alreadyPunched = false;
 
     int shrinkValue = xLength/2; //pomniejszam za duza pestke

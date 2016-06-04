@@ -19,10 +19,11 @@ private:
 
     static int getNextId();
 protected:
+    ALLEGRO_BITMAP *imageHalfHP;
     GameField *gameField;
     int gridXPos, gridYPos, gridXPosPx, gridYPosPx, id;
 public:
-    int hp;
+    int hp,initialHP;
     bool willMove;
 
     static void resetIdCounter();

@@ -10,10 +10,9 @@ using namespace std;
 
 class Defense: public GameObject
 {
-private:
+protected:
     static const int ATTACK_INTERVAL = 3000;
     chrono::milliseconds lastAttackTime;
-
     void move();
     void collisionWith(GameObject *anotherObject);
     void collisionWithOpponent(Opponent *opponent);

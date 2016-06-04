@@ -6,7 +6,7 @@
 
 class Bullet: public GameObject
 {
-private:
+protected:
     static const int BULLET_CODE = 200;
 
     bool alreadyPunched;

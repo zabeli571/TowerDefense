@@ -13,9 +13,11 @@ using namespace std;
 
 class Opponent: public GameObject
 {
-private:
+protected:
     static const int ATTACK_INTERVAL = 1000;
     chrono::milliseconds lastAttackTime;
+
+    long long int freezeTimeStamp = 0;
 
     void move();
     void collisionWith(GameObject *anotherObject);
@@ -33,6 +35,7 @@ public:
     Opponent(GameField *gameField, ifstream *inputStream);
     void saveToStream(ofstream* outputStream);
     ~Opponent();
+    void freeze();
 };
 
 #endif
