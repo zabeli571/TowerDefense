@@ -3,6 +3,7 @@
 #include "Obstacle.h"
 #include "Defense.h"
 #include "DefenseIce.h"
+#include "DefenseWalk.h"
 
 int GameObject::idCounter = 0;
 
@@ -129,6 +130,15 @@ GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstr
             else
             {
                 return new DefenseIce(gameField,inputStream);
+            }
+        case DefenseWalk::DEFENSE_WALK_CODE:
+            if(inputStream==NULL)
+            {
+                return new DefenseWalk(gameField);
+            }
+            else
+            {
+                return new DefenseWalk(gameField,inputStream);
             }
         case Opponent::OPPONENT_CODE:
             if(inputStream==NULL)

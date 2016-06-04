@@ -176,14 +176,16 @@ void Play::drawPlay()
     interfaceObjects->push_back(new NumberField(850,470,30,&frequency));
     interfaceObjects->push_back(new Text(450,545,30,"Czas do nastepnej fali przeciwnikow",ALLEGRO_ALIGN_LEFT));
 
-    GameObjectSelector *gameObjectSelector = new GameObjectSelector(25,50,70,70,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE);
+    GameObjectSelector *gameObjectSelector = new GameObjectSelector(10,50,80,80,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE);
     gameObjectsSelectors.push_back(gameObjectSelector);
     interfaceObjects->push_back(gameObjectSelector);
-    gameObjectSelector = new GameObjectSelector(25,125,50,50,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE_ICE);
+    gameObjectSelector = new GameObjectSelector(10,150,80,80,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE_ICE);
     gameObjectsSelectors.push_back(gameObjectSelector);
     interfaceObjects->push_back(gameObjectSelector);
-
-    gameObjectSelector = new GameObjectSelector(25,200,50,50,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_OBSTACLE);
+    gameObjectSelector = new GameObjectSelector(10,250,80,80,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE_WALK);
+    gameObjectsSelectors.push_back(gameObjectSelector);
+    interfaceObjects->push_back(gameObjectSelector);
+    gameObjectSelector = new GameObjectSelector(10,350,80,80,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_OBSTACLE);
     gameObjectsSelectors.push_back(gameObjectSelector);
     interfaceObjects->push_back(gameObjectSelector);
 
@@ -191,13 +193,15 @@ void Play::drawPlay()
     interfaceObjects->push_back(progressField);
 }
 
-void Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state) {
+void Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state)
+{
     int code;
     if(getCodeIfClicked(state, &code))
     {
         switch (code){
             case GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE:
             case GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE_ICE:
+            case GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE_WALK:
             case GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_OBSTACLE:
                 {
                     GameObjectSelector* gameObjectSelector = getSelectorByClicked();
@@ -223,7 +227,8 @@ void Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state) {
     }
 }
 
-bool Play::getCodeIfClicked(ALLEGRO_MOUSE_STATE *state, int *codePointer) {
+bool Play::getCodeIfClicked(ALLEGRO_MOUSE_STATE *state, int *codePointer)
+{
     for(int i=0;i<gameObjects->size();i++)
     {
         int code=(*gameObjects)[i]->getCodeIfClicked(state->x,state->y, &clickedObject);
@@ -245,7 +250,8 @@ bool Play::getCodeIfClicked(ALLEGRO_MOUSE_STATE *state, int *codePointer) {
     return false;
 }
 
-void Play::manageWaveReady(long long int currentTime) {
+void Play::manageWaveReady(long long int currentTime)
+{
     if(waves > 0)
     {
         if(currentTime - lastWaveTime > (frequency*1000))
@@ -262,7 +268,8 @@ void Play::manageWaveReady(long long int currentTime) {
     }
 }
 
-void Play::createWave() {
+void Play::createWave()
+{
     for(int i=1;i<=5;i++)
     {
         gameObjects->push_back(new Opponent(gameField,i,10));
