@@ -3,7 +3,7 @@
 Legend::Legend()
 {
     x = 50;
-    y = 400;
+    y = 360;
     xLength = 300;
     yLength = 200;
     image = al_load_bitmap("layouts/legend.png");

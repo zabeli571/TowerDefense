@@ -67,7 +67,7 @@ void Defense::collisionWithDefense(Defense *defense)
 
 void Defense::doAction(Play *play) //play zawiera wskaznik do wektora z gameobjectsami, do ktorego dodamy pociski
 {
-    std::chrono::milliseconds eventTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    std::chrono::milliseconds eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL) //nie czesciej niz co 3s
     {
         play->addObject(new Bullet(gameField,gridYPos,gridXPos)); //tworze pociski
@@ -79,16 +79,3 @@ void Defense::collisionWithBullet(Bullet *bullet)
 {
     //brak interakcji
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

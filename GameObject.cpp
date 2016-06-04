@@ -39,6 +39,7 @@ GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstru
     x=gameFieldX+gridXPosPx;
     y=gameFieldY+gridYPosPx;
     this->gameField = gameField;
+    id = GameObject::getNextId();
 }
 
 GameObject::GameObject(GameField *gameField, ifstream *inputStream) //dla wczytywanych z pliku

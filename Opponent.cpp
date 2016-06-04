@@ -23,6 +23,7 @@ Opponent::Opponent(GameField *gameField, int row, int column): GameObject(gameFi
     hp=10;
     allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/opponent.png");
+    lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
 }
 
 Opponent::Opponent(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu

@@ -16,7 +16,7 @@ class GameField: public MainObject
     friend class GameObject;
 private:
     static const int CREATOR_XPOS=50;
-    static const int CREATOR_YPOS=90;
+    static const int CREATOR_YPOS=40;
     static const int CREATOR_WIDTH=600;
     static const int CREATOR_HEIGHT=300;
     static const int CREATOR_ROWS=5;

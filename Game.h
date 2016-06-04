@@ -36,6 +36,7 @@ private:
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_FONT *font=NULL;
     MainObject *clickedObject;
+    int money = 0, waves = 0,frequency = 0;
 public:
     Game();
     ~Game();
@@ -57,8 +58,5 @@ private:
     void saveObjects();
     string getNextMapName();
     void runPlay(string mapName);
-    void drawPlay();
-
-    void loadObjects(string mapName);
 };
 #endif

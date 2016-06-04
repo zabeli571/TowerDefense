@@ -1,5 +1,5 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#ifndef TOWERDEFENSE_NUMBERFIELD_H
+#define TOWERDEFENSE_NUMBERFIELD_H
 
 #include <iostream>
 #include <allegro5/allegro.h>
@@ -10,19 +10,18 @@
 
 using namespace std;
 
-class Button :public MainObject
+class NumberField :public MainObject
 {
 protected:
     int fontSize;
-    string name;
     ALLEGRO_FONT *font;
+    int *number;
 public:
-    static const int BUTTON_PLAY_MENU = 110;
-
-    Button(int x, int y, int xLength, int yLength, int code, string name);
-    ~Button();
+    NumberField(int x, int y, int fontSize ,int *number);
+    ~NumberField();
     void draw();
 };
-#endif
 
 
+
+#endif //TOWERDEFENSE_NUMBERFIELD_H

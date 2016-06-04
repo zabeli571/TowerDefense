@@ -10,7 +10,7 @@ Statistics::Statistics()
     xLength = 430;
     yLength = 430;
 
-    backButton = new Button(x+xLength/2 - 100, y+yLength-70 ,200, 50, Button::BUTTON_PLAY_START , "POWROT");
+    backButton = new Button(x+xLength/2 - 100, y+yLength-70 ,200, 50, Button::BUTTON_PLAY_MENU , "POWROT");
 
     fontSize=40;
     font=al_load_ttf_font("fonts/font3.ttf",fontSize,0);
@@ -52,7 +52,7 @@ void Statistics::setPlayFinished(int code)
     else
     {
         points -=10; //za przegrana -10pkt
-        image = al_load_bitmap("layouts/looser.png");
+        image = al_load_bitmap("layouts/loser.png");
     }
 }
 

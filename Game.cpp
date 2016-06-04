@@ -2,6 +2,9 @@
 #include "Opponent.h"
 #include "Obstacle.h"
 #include "Defense.h"
+#include "Text.h"
+#include "NumberChangeButton.h"
+#include "NumberField.h"
 
 Game::Game()
 {
@@ -89,7 +92,6 @@ void Game::initAllegro() {
     al_init_ttf_addon();
     al_install_mouse();
     al_init_image_addon();
-
 }
 
 void Game::runMenu()
@@ -131,8 +133,6 @@ int Game::getClickedObjectWithCode()
                 }
             }
         }
-
-
     }
 }
 
@@ -230,8 +230,35 @@ void Game::runCreator()
                 return;
             case CreatorButton::CREATOR_BUTTON_CODE_RETURN:
                 return;
+            case NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_MONEY:
+                money+=50;
+                break;
+            case NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_MONEY:
+                if(money >=50)
+                {
+                    money-=50;
+                }
+                break;
+            case NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_WAVES:
+                waves+=1;
+                break;
+            case NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_WAVES:
+                if(waves >=1)
+                {
+                    waves-=1;
+                }
+                break;
+            case NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_FREQUENCY:
+                frequency+=1;
+                break;
+            case NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_FREQUENCY:
+                if(frequency >=1)
+                {
+                    frequency-=1;
+                }
+                break;
             default:
-                return;
+                break;
         }
         changeState();
     }
@@ -295,6 +322,18 @@ void Game::drawCreator() {
     interfaceObjects.push_back(new CreatorButton(8, CreatorButton::CREATOR_BUTTON_CODE_RETURN, "WROC DO MENU"));
     interfaceObjects.push_back(gameField);
     interfaceObjects.push_back(new Legend());
+    interfaceObjects.push_back(new Text(500,360,30,"Liczba monet",ALLEGRO_ALIGN_CENTRE));
+    interfaceObjects.push_back(new NumberChangeButton(400,390,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_MONEY,false));
+    interfaceObjects.push_back(new NumberChangeButton(550,390,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_MONEY,true));
+    interfaceObjects.push_back(new NumberField(505,400,30,&money));
+    interfaceObjects.push_back(new Text(500,440,30,"Liczba  fal przeciwnikow",ALLEGRO_ALIGN_CENTRE));
+    interfaceObjects.push_back(new NumberChangeButton(400,470,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_WAVES,false));
+    interfaceObjects.push_back(new NumberChangeButton(550,470,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_WAVES,true));
+    interfaceObjects.push_back(new NumberField(505,480,30,&waves));
+    interfaceObjects.push_back(new Text(500,520,30,"Czestotliwosc fal przeciwnikow",ALLEGRO_ALIGN_CENTRE));
+    interfaceObjects.push_back(new NumberChangeButton(400,550,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_FREQUENCY,false));
+    interfaceObjects.push_back(new NumberChangeButton(550,550,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_FREQUENCY,true));
+    interfaceObjects.push_back(new NumberField(505,560,30,&frequency));
     redraw();
 }
 
@@ -344,28 +383,14 @@ void Game::redraw()
 void Game::saveObjects() //gdy wybierzemy przycisk zapisz
 {
     ofstream outputStream("maps/"+ getNextMapName() +".izu"); // obiekt strumien-outputStream klasy ofstream, do konstruktora podaje sciezke
+
+    outputStream << money << " " << waves << " " << frequency << " ";
     outputStream << gameObjects.size(); //zapisujemy ilosc obiektow
     for(int i=0;i<gameObjects.size();i++)
     {
         gameObjects[i]->saveToStream(&outputStream);
     }
     outputStream.close(); //zamyka strumien
-}
-
-void Game::loadObjects(string mapName)
-{
-    ifstream inputStream(mapName);
-    int objectsCount;
-    inputStream >> objectsCount; //pobieramy liczbe obiektow
-    for(int i=0;i<objectsCount;i++)
-    {
-        int code;
-        inputStream >> code;
-        GameObject *gameObject = GameObject::getGameObjectByCode(gameField,code,&inputStream);
-        gameObjects.push_back(gameObject); //stworzony w getGameObjectByCode nowy obiekt dodajemy do wektora
-
-    }
-    inputStream.close();
 }
 
 string Game::getNextMapName()
@@ -376,34 +401,15 @@ string Game::getNextMapName()
 void Game::runPlay(string mapName)
 {
     deleteObjects();
-    gameField = new GameField(GameField::GAME_FIELD_PLAY_CODE);//tworze obiekt gamefield
-    loadObjects(mapName); //tworze obiekty na podstawie danych z pliku
-    drawPlay(); //dodaje przyciski, pole gry i rysuje
-    while(true) {
-        switch (getClickedObjectWithCode()) {
-            case Button::BUTTON_PLAY_START:
-            {
-                Statistics statistics; //tworzymy obiekt statistics
-                Play play(this,&gameObjects, &statistics); //tworze nowy obiekt play przekazuje game i adres do wektora obiektow wczytanych z pliku
-                int score = play.run(); //zaczyna sie gra
-                statistics.setPlayFinished(score);
-                statistics.countDefendersStand(&gameObjects); //licze chomiki i przeszkody, ktore pozostaly
-                statistics.draw(); //rysuje statystyki
-                switch (statistics.getButtonCodeWhenClicked())
-                {
-                    case Statistics::BACK_CODE:
-                        return; //wychodze z tej funkcji, wiec az do menu
-                }
-            }
-            default:
-                break;
-        }
+    Statistics statistics; //tworzymy obiekt statistics
+    Play play(mapName,this,&gameObjects, &interfaceObjects, &statistics); //tworze nowy obiekt play przekazuje game i adres do wektora obiektow wczytanych z pliku
+    int score = play.run(); //zaczyna sie gra
+    statistics.setPlayFinished(score);
+    statistics.countDefendersStand(&gameObjects); //licze chomiki i przeszkody, ktore pozostaly
+    statistics.draw(); //rysuje statystyki
+    switch (statistics.getButtonCodeWhenClicked())
+    {
+        case Statistics::BACK_CODE:
+            return; //wychodze z tej funkcji, wiec az do menu
     }
-}
-
-void Game::drawPlay()
-{
-    interfaceObjects.push_back(new Button(400, 500 ,200,100, Button::BUTTON_PLAY_START , "START")); //dodaje przycisk START
-    interfaceObjects.push_back(gameField); //dodaje gamefield
-    redraw();
 }
