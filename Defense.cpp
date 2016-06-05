@@ -22,7 +22,7 @@ Defense::Defense(GameField *gameField, ifstream *inputStream): GameObject(gameFi
 //    cout<<"\tkonstruktor Defense"<<endl;
     code = DEFENSE_CODE;
     allegroColor=al_map_rgb(0,153,0);
-    image = al_load_bitmap("bitmaps/defense_halfHP.png");
+    image = al_load_bitmap("bitmaps/defense.png");
     imageHalfHP = al_load_bitmap("bitmaps/defense_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
 }

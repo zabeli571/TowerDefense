@@ -405,7 +405,6 @@ void Game::runPlay(string mapName)
     Play play(mapName,this,&gameObjects, &interfaceObjects, &statistics); //tworze nowy obiekt play przekazuje game i adres do wektora obiektow wczytanych z pliku
     int score = play.run(); //zaczyna sie gra
     statistics.setPlayFinished(score);
-    statistics.countDefendersStand(&gameObjects); //licze chomiki i przeszkody, ktore pozostaly
     statistics.draw(); //rysuje statystyki
     switch (statistics.getButtonCodeWhenClicked())
     {

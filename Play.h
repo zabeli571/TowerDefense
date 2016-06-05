@@ -19,7 +19,7 @@ private:
     vector<GameObjectSelector*> gameObjectsSelectors; //wskaznik na wektor wskaznikow na GameObjecty
     Game *game;
     Statistics *statistics; //wskaznik na obiekt statistics
-    int money = 0, waves = 0,frequency = 0;
+    int money = 0, waves = 0, initialWaves = 0,frequency = 0;
     MainObject *clickedObject;
     ProgressField *progressField;
     long long int lastWaveTime = (std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch())).count();

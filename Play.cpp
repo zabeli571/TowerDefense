@@ -82,11 +82,13 @@ int Play::run()
             }
             if(checkForWin())//zwroci true jesli nie ma przeciwnikow
             {
+                statistics->countDefendersStand(gameObjects); //licze chomiki i przeszkody, ktore pozostaly
                 game->deleteObjects();
                 return Play::VICTORY_CODE;
             }
             if(checkForOutsideField()) //zwroci true gdy opponent przekroczy gamefield
             {
+                statistics->countDefendersStand(gameObjects); //licze chomiki i przeszkody, ktore pozostaly
                 game->deleteObjects();
                 return Play::DEFEAT_CODE;
             }
@@ -153,6 +155,7 @@ void Play::loadObjects(string mapName)
     int objectsCount;
     inputStream >> money;
     inputStream >> waves;
+    initialWaves = waves;
     inputStream >> frequency;
     inputStream >> objectsCount; //pobieramy liczbe obiektow
     for(int i=0;i<objectsCount;i++)
@@ -256,7 +259,7 @@ void Play::manageWaveReady(long long int currentTime)
 {
     if(waves > 0)
     {
-        if(currentTime - lastWaveTime > (frequency*1000))
+        if(currentTime - lastWaveTime > (frequency*1000) || initialWaves == waves)
         {
             progressField->setProgress(100);
             lastWaveTime = currentTime;
@@ -272,9 +275,27 @@ void Play::manageWaveReady(long long int currentTime)
 
 void Play::createWave()
 {
+    srand(time(NULL));
+    int shootLine = (rand() % 5)+1;
+    int flyLine = shootLine;
+    while(flyLine == shootLine)
+    {
+        flyLine = (rand() % 5)+1;
+    }
     for(int i=1;i<=5;i++)
     {
-        gameObjects->push_back(new OpponentShoot(gameField,i,10));
+        if(i == flyLine)
+        {
+            gameObjects->push_back(new OpponentFly(gameField,i,10));
+        }
+        else if(i == shootLine)
+        {
+            gameObjects->push_back(new OpponentShoot(gameField,i,10));
+        }
+        else
+        {
+            gameObjects->push_back(new Opponent(gameField,i,10));
+        }
     }
 }
 
