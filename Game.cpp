@@ -321,19 +321,18 @@ void Game::drawCreator() {
     interfaceObjects.push_back(new CreatorButton(7, CreatorButton::CREATOR_BUTTON_CODE_SAVE, "ZAPISZ"));
     interfaceObjects.push_back(new CreatorButton(8, CreatorButton::CREATOR_BUTTON_CODE_RETURN, "WROC DO MENU"));
     interfaceObjects.push_back(gameField);
-    interfaceObjects.push_back(new Legend());
-    interfaceObjects.push_back(new Text(500,360,30,"Liczba monet",ALLEGRO_ALIGN_CENTRE));
-    interfaceObjects.push_back(new NumberChangeButton(400,390,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_MONEY,false));
-    interfaceObjects.push_back(new NumberChangeButton(550,390,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_MONEY,true));
-    interfaceObjects.push_back(new NumberField(505,400,30,&money));
-    interfaceObjects.push_back(new Text(500,440,30,"Liczba  fal przeciwnikow",ALLEGRO_ALIGN_CENTRE));
-    interfaceObjects.push_back(new NumberChangeButton(400,470,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_WAVES,false));
-    interfaceObjects.push_back(new NumberChangeButton(550,470,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_WAVES,true));
-    interfaceObjects.push_back(new NumberField(505,480,30,&waves));
-    interfaceObjects.push_back(new Text(500,520,30,"Czestotliwosc fal przeciwnikow",ALLEGRO_ALIGN_CENTRE));
-    interfaceObjects.push_back(new NumberChangeButton(400,550,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_FREQUENCY,false));
-    interfaceObjects.push_back(new NumberChangeButton(550,550,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_FREQUENCY,true));
-    interfaceObjects.push_back(new NumberField(505,560,30,&frequency));
+    interfaceObjects.push_back(new Text(350,345,30,"Liczba monet",ALLEGRO_ALIGN_CENTRE));
+    interfaceObjects.push_back(new NumberChangeButton(250,380,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_MONEY,false));
+    interfaceObjects.push_back(new NumberChangeButton(400,380,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_MONEY,true));
+    interfaceObjects.push_back(new NumberField(350,390,30,&money));
+    interfaceObjects.push_back(new Text(350,435,30,"Liczba  fal przeciwnikow",ALLEGRO_ALIGN_CENTRE));
+    interfaceObjects.push_back(new NumberChangeButton(250,470,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_WAVES,false));
+    interfaceObjects.push_back(new NumberChangeButton(400,470,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_WAVES,true));
+    interfaceObjects.push_back(new NumberField(350,480,30,&waves));
+    interfaceObjects.push_back(new Text(350,525,30,"Czestotliwosc fal przeciwnikow",ALLEGRO_ALIGN_CENTRE));
+    interfaceObjects.push_back(new NumberChangeButton(250,560,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_FREQUENCY,false));
+    interfaceObjects.push_back(new NumberChangeButton(400,560,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_FREQUENCY,true));
+    interfaceObjects.push_back(new NumberField(350,570,30,&frequency));
     redraw();
 }
 

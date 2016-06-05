@@ -6,7 +6,7 @@ GameField::GameField(int code) {
     cout<<"\tkonstruktor GameField"<<endl;
     switch (code){
         case GAME_FIELD_CREATOR_CODE :
-            allegroColor=al_map_rgb( 0,  102, 102);
+            allegroColor=al_map_rgb( 255,  229, 204);
             x=CREATOR_XPOS;
             y=CREATOR_YPOS;
             xLength=CREATOR_WIDTH;
@@ -83,7 +83,7 @@ void GameField::changeStateToActive()
 
 void GameField::changeStateToInactive()
 {
-    allegroColor=al_map_rgb( 0,  102, 102);//niebieski
+    allegroColor=al_map_rgb( 255,  229, 204);
 }
 
 void GameField::getProperties(int *x, int *y, int *sq)//gamefield xpos, ypos,szerokosc kwadratu

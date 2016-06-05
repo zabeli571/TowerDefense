@@ -12,7 +12,7 @@ using namespace std;
 class NumberChangeButton : public Button
 {
 private:
-    static const int BUTTON_WIDTH=60;
+    static const int BUTTON_WIDTH=50;
     static const int BUTTON_HEIGHT=50;
 public:
     static const int NUMBER_CHANGE_BUTTON_INCREASE_MONEY = 10000;
