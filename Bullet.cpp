@@ -22,6 +22,27 @@ Bullet::Bullet(GameField *gameField, int row, int column) : GameObject(gameField
     y += shrinkValue/2;
 }
 
+Bullet::Bullet(GameField *gameField, int x, int y, bool exact) : GameObject(gameField,x,y,exact)
+{
+//    cout<<"\tkonstruktor Bullet"<<endl;
+    code = BULLET_CODE;
+    hp=1;
+    initialHP = hp;
+    allegroColor=al_map_rgb(204,0,0);
+    image = al_load_bitmap("bitmaps/bullet.png");
+    imageHalfHP = al_load_bitmap("bitmaps/bullet.png");
+
+    alreadyPunched = false;
+
+    int shrinkValue = xLength/2; //pomniejszam za duza pestke
+    xLength -= shrinkValue;
+    yLength -= shrinkValue;
+    this->x += shrinkValue/2;
+    this->y += shrinkValue/2;
+}
+
+
+
 Bullet::~Bullet()
 {
 //    cout<<"destruktor Bullet"<<endl;

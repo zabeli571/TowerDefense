@@ -8,6 +8,8 @@
 #include "GameObjectSelector.h"
 #include "Defense.h"
 #include "Obstacle.h"
+#include "OpponentShoot.h"
+#include "OpponentFly.h"
 
 Play::Play(string mapName, Game *game,vector<GameObject *> *gameObjects, vector<MainObject*> *interfaceObjects, Statistics *statistics)
 {
@@ -65,9 +67,9 @@ int Play::run()
                 }
                 if((*gameObjects)[i]->willDie()) //sprawdzam czy hp <= 0
                 {
-                    if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)
+                    if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE || (*gameObjects)[i]->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*gameObjects)[i]->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE)
                     {
-                        money += 50;
+                        increaseMoneyForDefeatingOpponent((*gameObjects)[i]->getCode());
                         statistics->addOpponentDefeated(); //dodajemy do statystyk pokonanego przeciwnika
                     }
                     deleteObject((*gameObjects)[i]); //hp <= 0 usuwamy
@@ -116,7 +118,7 @@ bool Play::checkForOutsideField()//przegrywam gdy opponent przekroczy pole gry, 
     {
         if((*gameObjects)[i]->isOutsideField())
         {
-            if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE) //gdy opponent przekroczy pole
+            if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE || (*gameObjects)[i]->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*gameObjects)[i]->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE) //gdy opponent przekroczy pole
             {
                 return true;
             }
@@ -134,7 +136,7 @@ bool Play::checkForWin()
     if(waves == 0)
     {
         for (int i = 0; i < gameObjects->size(); i++) {
-            if ((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE)//sprawdzam czy na planszy sa jeszcze przeciwnicy
+            if ((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE || (*gameObjects)[i]->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*gameObjects)[i]->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE)//sprawdzam czy na planszy sa jeszcze przeciwnicy
             {
                 return false;
             }
@@ -272,7 +274,7 @@ void Play::createWave()
 {
     for(int i=1;i<=5;i++)
     {
-        gameObjects->push_back(new Opponent(gameField,i,10));
+        gameObjects->push_back(new OpponentShoot(gameField,i,10));
     }
 }
 
@@ -312,11 +314,14 @@ GameObjectSelector *Play::getSelectorByClicked() {
     }
 }
 
-
-
-
-
-
-
-
-
+void Play::increaseMoneyForDefeatingOpponent(int code)
+{
+    if(code == Opponent::OPPONENT_CODE)
+    {
+        money += 50;
+    }
+    else
+    {
+        money += 100;
+    }
+}

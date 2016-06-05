@@ -37,6 +37,7 @@ private:
     void manageGameObjectSelectorsState();
     GameObjectSelector* getSelectorByCode();
     GameObjectSelector *getSelectorByClicked();
+    void increaseMoneyForDefeatingOpponent(int code);
 
 public:
     static const int VICTORY_CODE = 1;

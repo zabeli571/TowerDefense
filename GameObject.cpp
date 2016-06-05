@@ -45,6 +45,19 @@ GameObject::GameObject(GameField *gameField, int row, int column)//drugi konstru
     id = GameObject::getNextId();
 }
 
+GameObject::GameObject(GameField *gameField, int x, int y, bool exact)//drugi konstruktor dla obstacle i opponent
+{
+//    cout<<"\tkonstruktor GameObject"<<endl<<"\t";
+    int gameFieldX, gameFieldY, squareWidth;
+    gameField->getProperties(&gameFieldX,&gameFieldY,&squareWidth);
+    xLength = squareWidth;
+    yLength = squareWidth;
+    this->x=x;
+    this->y=y;
+    this->gameField = gameField;
+    id = GameObject::getNextId();
+}
+
 GameObject::GameObject(GameField *gameField, ifstream *inputStream) //dla wczytywanych z pliku
 {
 //    cout<<"\tkonstruktor GameObject"<<endl<<"\t";

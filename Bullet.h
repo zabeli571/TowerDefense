@@ -21,6 +21,7 @@ protected:
 
 public:
     Bullet(GameField *gameField, int row, int column);
+    Bullet(GameField *gameField, int x, int y,bool exact);
     ~Bullet();
 };
 

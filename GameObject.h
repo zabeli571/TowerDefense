@@ -30,6 +30,7 @@ public:
     static GameObject* getGameObjectByCode(GameField *gameField,int code, ifstream *inputStream);
     GameObject(GameField *gameField);
     GameObject(GameField *gameField, int row, int column);
+    GameObject(GameField *gameField, int x, int y, bool exact);
     GameObject(GameField *gameField, ifstream *inputStream);
     ~GameObject();
     void draw();

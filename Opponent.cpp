@@ -2,7 +2,6 @@
 #include "Obstacle.h"
 #include "Defense.h"
 #include "Play.h"
-
 using namespace std;
 
 
