@@ -36,12 +36,16 @@ public:
     Opponent(GameField *gameField);
     Opponent(GameField *gameField, int row, int column);
     Opponent(GameField *gameField, ifstream *inputStream);
+    Opponent(GameField *gameField, ifstream *inputStream,bool exact);
+
     void saveToStream(ofstream* outputStream);
     ~Opponent();
     void freeze();
 
     virtual void managePauseStart(chrono::milliseconds pauseStartTime);
     virtual void managePauseEnd(chrono::milliseconds pauseEndTime);
+
+    void saveToStreamExact(ofstream* outputStream);
 };
 
 #endif

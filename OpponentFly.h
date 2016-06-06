@@ -18,6 +18,7 @@ public:
     OpponentFly(GameField *gameField);
     OpponentFly(GameField *gameField,  int row, int column);
     OpponentFly(GameField *gameField, ifstream *inputStream);
+    OpponentFly(GameField *gameField, ifstream *inputStream, bool exact);
 
     void displayOnConsole();
     ~OpponentFly();

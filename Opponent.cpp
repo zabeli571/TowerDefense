@@ -12,10 +12,10 @@ Opponent::Opponent(GameField *gameField): GameObject(gameField)
     code = OPPONENT_CODE;
     hp=10;
     initialHP = hp;
-    allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/opponent.png");
     imageHalfHP = al_load_bitmap("bitmaps/opponent_halfHP.png");
     toNextAttackTime = ATTACK_INTERVAL;
+    toDefrostTime = 0;
 }
 
 Opponent::Opponent(GameField *gameField, int row, int column): GameObject(gameField,row,column)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
@@ -24,22 +24,33 @@ Opponent::Opponent(GameField *gameField, int row, int column): GameObject(gameFi
     code = OPPONENT_CODE;
     hp=10;
     initialHP = hp;
-    allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/opponent.png");
     imageHalfHP = al_load_bitmap("bitmaps/opponent_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
     toNextAttackTime = ATTACK_INTERVAL;
+    toDefrostTime = 0;
 }
 
 Opponent::Opponent(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
 {
 //    cout<<"\tkonstruktor Opponent"<<endl;
     code = OPPONENT_CODE;
-    allegroColor=al_map_rgb(204,0,0);
     image = al_load_bitmap("bitmaps/opponent.png");
     imageHalfHP = al_load_bitmap("bitmaps/opponent_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
     toNextAttackTime = ATTACK_INTERVAL;
+    toDefrostTime = 0;
+}
+
+Opponent::Opponent(GameField *gameField, ifstream *inputStream, bool exact) : GameObject(gameField,inputStream,exact)
+{
+    code = OPPONENT_CODE;
+    image = al_load_bitmap("bitmaps/opponent.png");
+    imageHalfHP = al_load_bitmap("bitmaps/opponent_halfHP.png");
+    lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    *inputStream >> toNextAttackTime;
+    *inputStream >> toDefrostTime;
+    freezeTimeStamp = lastAttackTime.count();
 }
 
 Opponent::~Opponent()
@@ -131,3 +142,7 @@ void Opponent::managePauseEnd(chrono::milliseconds pauseEndTime)
 }
 
 
+void Opponent::saveToStreamExact(ofstream *outputStream) {
+    GameObject::saveToStreamExact(outputStream);
+    *outputStream << " " << toNextAttackTime << " " << toDefrostTime;
+}

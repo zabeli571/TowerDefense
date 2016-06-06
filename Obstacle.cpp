@@ -11,7 +11,6 @@ Obstacle::Obstacle(GameField *gameField): GameObject(gameField)
     code = OBSTACLE_CODE;
     hp=20;
     initialHP = hp;
-    allegroColor=al_map_rgb(192,192,192);
     image = al_load_bitmap("bitmaps/obstacle.png");
     imageHalfHP = al_load_bitmap("bitmaps/obstacle_halfHP.png");
 }
@@ -22,7 +21,6 @@ Obstacle::Obstacle(GameField *gameField, int row, int column): GameObject(gameFi
     code = OBSTACLE_CODE;
     hp=20;
     initialHP = hp;
-    allegroColor=al_map_rgb(192,192,192);
     image = al_load_bitmap("bitmaps/obstacle.png");
     imageHalfHP = al_load_bitmap("bitmaps/obstacle_halfHP.png");
 }
@@ -31,7 +29,14 @@ Obstacle::Obstacle(GameField *gameField, ifstream *inputStream): GameObject(game
 {
 //    cout<<"\tkonstruktor Obstacle"<<endl;
     code = OBSTACLE_CODE;
-    allegroColor=al_map_rgb(192,192,192);
+    initialHP = hp;
+    image = al_load_bitmap("bitmaps/obstacle.png");
+    imageHalfHP = al_load_bitmap("bitmaps/obstacle_halfHP.png");
+}
+
+Obstacle::Obstacle(GameField *gameField, ifstream *inputStream, bool exact) : GameObject(gameField,inputStream,exact)
+{
+    code = OBSTACLE_CODE;
     image = al_load_bitmap("bitmaps/obstacle.png");
     imageHalfHP = al_load_bitmap("bitmaps/obstacle_halfHP.png");
 }
@@ -86,16 +91,3 @@ void Obstacle::collisionWithBullet(Bullet *bullet)
 {
     //brak interakcji
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

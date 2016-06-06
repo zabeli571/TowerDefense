@@ -20,6 +20,7 @@ public:
 
     DefenseWalk(GameField *gameField);// przy konstruktorach defense, opponent, obstacle daje w argumentach wskaznik na gamefield by znac pole w ktorym chce narysowac
     DefenseWalk(GameField *gameField, ifstream *inputStream);
+    DefenseWalk(GameField *gameField, ifstream *inputStream, bool exact);
 
     void displayOnConsole();
     ~DefenseWalk();

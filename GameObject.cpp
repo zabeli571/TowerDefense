@@ -4,6 +4,11 @@
 #include "Defense.h"
 #include "DefenseIce.h"
 #include "DefenseWalk.h"
+#include "OpponentFly.h"
+#include "OpponentShoot.h"
+#include "Bullet.h"
+#include "BulletIce.h"
+#include "BulletOpponent.h"
 
 int GameObject::idCounter = 0;
 
@@ -81,6 +86,22 @@ GameObject::GameObject(GameField *gameField, ifstream *inputStream) //dla wczyty
     this->gameField = gameField;
 }
 
+GameObject::GameObject(GameField *gameField, ifstream *inputStream, bool exact) //dla wczytywanych z pliku
+{
+//    cout<<"\tkonstruktor GameObject"<<endl<<"\t";
+    int xRelative,yRelative, row, column;
+    *inputStream >> x;
+    *inputStream >> y;
+    *inputStream >> hp;
+    *inputStream >> initialHP;
+    *inputStream >> id;
+    int gameFieldX, gameFieldY, squareWidth;
+    gameField->getProperties(&gameFieldX,&gameFieldY,&squareWidth);
+    xLength = squareWidth;
+    yLength = squareWidth;
+    this->gameField = gameField;
+}
+
 void GameObject::draw()
 {
     if(hp <= (double)initialHP/2)
@@ -111,6 +132,11 @@ GameObject::~GameObject()
 void GameObject::saveToStream(ofstream *outputStream) //zapisujemy kod, pozycje, hp
 {
     *outputStream << " " << code << " " << gridXPos << " " << gridYPos << " " << hp; //narazie kazdy obiekt ma te atrybuty
+}
+
+void GameObject::saveToStreamExact(ofstream *outputStream)
+{
+    *outputStream << " " << code << " " << x << " " << y << " " << hp << " " << initialHP << " " << id;
 }
 
 GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstream *inputStream)
@@ -165,6 +191,33 @@ GameObject* GameObject::getGameObjectByCode(GameField *gameField,int code, ifstr
     }
 }
 
+GameObject* GameObject::loadGameObjectByCode(GameField *gameField,int code, ifstream *inputStream)
+{
+    switch(code)
+    {
+        case Obstacle::OBSTACLE_CODE:
+            return new Obstacle(gameField,inputStream,true);
+        case Defense::DEFENSE_CODE:
+            return new Defense(gameField,inputStream,true);
+        case DefenseIce::DEFENSE_ICE_CODE:
+            return new DefenseIce(gameField,inputStream,true);
+        case DefenseWalk::DEFENSE_WALK_CODE:
+            return new DefenseWalk(gameField,inputStream,true);
+        case Opponent::OPPONENT_CODE:
+            return new Opponent(gameField,inputStream,true);
+        case OpponentFly::OPPONENT_FLY_CODE:
+            return new OpponentFly(gameField,inputStream,true);
+        case OpponentShoot::OPPONENT_SHOOT_CODE:
+            return new OpponentShoot(gameField,inputStream,true);
+        case Bullet::BULLET_CODE:
+            return new Bullet(gameField,inputStream,true);
+        case BulletIce::BULLET_ICE_CODE:
+            return new BulletIce(gameField,inputStream,true);
+        case BulletOpponent::BULLET_OPPONENT_CODE:
+            return new BulletOpponent(gameField,inputStream,true);
+    }
+}
+
 int GameObject::getNextId()
 {
     return ++GameObject::idCounter;
@@ -206,3 +259,16 @@ void GameObject::managePauseEnd(chrono::milliseconds pauseEndTime)
 {
     //domysle nic nie trzeba robic
 }
+
+int GameObject::getCurrentId()
+{
+    return idCounter;
+}
+
+int GameObject::setCurrentId(int idCounter)
+{
+    GameObject::idCounter = idCounter;
+}
+
+
+

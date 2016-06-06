@@ -11,7 +11,6 @@ Defense::Defense(GameField *gameField): GameObject(gameField)
     hp = 10;
     initialHP = hp;
     code = DEFENSE_CODE;
-    allegroColor=al_map_rgb(0,153,0);
     image = al_load_bitmap("bitmaps/defense.png");
     imageHalfHP = al_load_bitmap("bitmaps/defense_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
@@ -22,12 +21,22 @@ Defense::Defense(GameField *gameField, ifstream *inputStream): GameObject(gameFi
 {
 //    cout<<"\tkonstruktor Defense"<<endl;
     code = DEFENSE_CODE;
-    allegroColor=al_map_rgb(0,153,0);
+    initialHP = hp;
     image = al_load_bitmap("bitmaps/defense.png");
     imageHalfHP = al_load_bitmap("bitmaps/defense_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
     toNextAttackTime = ATTACK_INTERVAL;
 }
+
+Defense::Defense(GameField *gameField, ifstream *inputStream, bool exact) : GameObject(gameField,inputStream,exact)
+{
+    code = DEFENSE_CODE;
+    image = al_load_bitmap("bitmaps/defense.png");
+    imageHalfHP = al_load_bitmap("bitmaps/defense_halfHP.png");
+    lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    *inputStream >> toNextAttackTime;
+}
+
 
 Defense::~Defense()
 {
@@ -75,7 +84,7 @@ void Defense::doAction(Play *play) //play zawiera wskaznik do wektora z gameobje
     std::chrono::milliseconds eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     if(eventTime.count() - lastAttackTime.count() >= toNextAttackTime) //nie czesciej niz co 3s
     {
-        play->addObject(new Bullet(gameField,gridYPos,gridXPos)); //tworze pociski
+        play->addObject(new Bullet(gameField,x,y)); //tworze pociski
         lastAttackTime = eventTime;
         toNextAttackTime = ATTACK_INTERVAL;
     }
@@ -95,6 +104,13 @@ void Defense::managePauseEnd(chrono::milliseconds pauseEndTime)
 {
     lastAttackTime = pauseEndTime;
 }
+
+void Defense::saveToStreamExact(ofstream *outputStream) {
+    GameObject::saveToStreamExact(outputStream);
+    *outputStream << " " << toNextAttackTime;
+}
+
+
 
 
 

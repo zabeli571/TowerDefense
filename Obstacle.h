@@ -26,6 +26,7 @@ public:
     Obstacle(GameField *gameField);//przekazuje do konstruktora i tam z niego korzystam
     Obstacle(GameField *gameField, int row, int column);
     Obstacle(GameField *gameField, ifstream *inputStream);
+    Obstacle(GameField *gameField, ifstream *inputStream,bool exact);
 
     ~Obstacle();
     void saveToStream(ofstream* outputStream);

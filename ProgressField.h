@@ -13,6 +13,8 @@ public:
     void draw();
 
     void setProgress(int i);
+
+    int getProgress();
 };
 
 

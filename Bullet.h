@@ -7,7 +7,6 @@
 class Bullet: public GameObject
 {
 protected:
-    static const int BULLET_CODE = 200;
 
     bool alreadyPunched;
 
@@ -20,8 +19,13 @@ protected:
     void doAction(Play *play);
 
 public:
-    Bullet(GameField *gameField, int row, int column);
-    Bullet(GameField *gameField, int x, int y,bool exact);
+    static const int BULLET_CODE = 200;
+
+    Bullet(GameField *gameField, int x, int y);
+    Bullet(GameField *gameField, ifstream *inputStream, bool exact);
+
+    void saveToStreamExact(ofstream* outputStream);
+
     ~Bullet();
 };
 

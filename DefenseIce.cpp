@@ -19,6 +19,13 @@ DefenseIce::DefenseIce(GameField *gameField, ifstream *inputStream): Defense(gam
     imageHalfHP = al_load_bitmap("bitmaps/defense_ice_halfHP.png");
 }
 
+DefenseIce::DefenseIce(GameField *gameField, ifstream *inputStream, bool exact) : Defense(gameField,inputStream,exact)
+{
+    code = DEFENSE_ICE_CODE;
+    image = al_load_bitmap("bitmaps/defense_ice.png");
+    imageHalfHP = al_load_bitmap("bitmaps/defense_ice_halfHP.png");
+}
+
 void DefenseIce::displayOnConsole()
 {
     cout<<"DefenseIce, dziedziczy po"<<endl;
@@ -30,7 +37,7 @@ void DefenseIce::doAction(Play *play) //play zawiera wskaznik do wektora z gameo
     std::chrono::milliseconds eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     if(eventTime.count() - lastAttackTime.count() >= toNextAttackTime) //nie czesciej niz co 3s
     {
-        play->addObject(new BulletIce(gameField,gridYPos,gridXPos)); //tworze pociski
+        play->addObject(new BulletIce(gameField,x,y)); //tworze pociski
         lastAttackTime = eventTime;
         toNextAttackTime = ATTACK_INTERVAL;
     }

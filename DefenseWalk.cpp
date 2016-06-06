@@ -23,6 +23,13 @@ DefenseWalk::DefenseWalk(GameField *gameField, ifstream *inputStream): Defense(g
     initialHP=hp;
 }
 
+DefenseWalk::DefenseWalk(GameField *gameField, ifstream *inputStream, bool exact) : Defense(gameField,inputStream,exact)
+{
+    code = DEFENSE_WALK_CODE;
+    image = al_load_bitmap("bitmaps/defense_walk.png");
+    imageHalfHP = al_load_bitmap("bitmaps/defense_walk_halfHP.png");
+}
+
 void DefenseWalk::displayOnConsole()
 {
     cout<<"DefenseWalk, dziedziczy po"<<endl;

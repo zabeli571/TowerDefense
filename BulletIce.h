@@ -10,10 +10,13 @@
 class BulletIce : public Bullet
 {
 protected:
-    static const int BULLET_ICE_CODE = 2001;
     void collisionWithOpponent(Opponent *opponent);
 public:
-    BulletIce(GameField *gameField, int row, int column);
+    static const int BULLET_ICE_CODE = 2001;
+
+    BulletIce(GameField *gameField, int x, int y);
+    BulletIce(GameField *gameField, ifstream *inputStream, bool exact);
+
     ~BulletIce();
 };
 

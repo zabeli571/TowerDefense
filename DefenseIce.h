@@ -19,6 +19,7 @@ public:
 
     DefenseIce(GameField *gameField);// przy konstruktorach defense, opponent, obstacle daje w argumentach wskaznik na gamefield by znac pole w ktorym chce narysowac
     DefenseIce(GameField *gameField, ifstream *inputStream);
+    DefenseIce(GameField *gameField, ifstream *inputStream, bool exact);
 
     void displayOnConsole();
     ~DefenseIce();

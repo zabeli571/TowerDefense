@@ -31,6 +31,15 @@ OpponentShoot::OpponentShoot(GameField *gameField, ifstream *inputStream): Oppon
     toNextShootTime = SHOOT_INTERVAL;
 }
 
+OpponentShoot::OpponentShoot(GameField *gameField, ifstream *inputStream, bool exact) : Opponent(gameField,inputStream,exact)
+{
+    code = OPPONENT_SHOOT_CODE;
+    image = al_load_bitmap("bitmaps/opponent_shoot.png");
+    imageHalfHP = al_load_bitmap("bitmaps/opponent_shoot_halfHP.png");
+    lastShootTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    *inputStream >> toNextShootTime;
+}
+
 OpponentShoot::~OpponentShoot()
 {
 //    cout<<"destruktor OpponentFly"<<endl;
@@ -63,5 +72,7 @@ void OpponentShoot::managePauseEnd(chrono::milliseconds pauseEndTime) {
     lastShootTime = pauseEndTime;
 }
 
-
-
+void OpponentShoot::saveToStreamExact(ofstream *outputStream) {
+    Opponent::saveToStreamExact(outputStream);
+    *outputStream << " " << toNextShootTime;
+}

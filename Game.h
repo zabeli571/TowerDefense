@@ -55,6 +55,6 @@ private:
 
     void saveObjects();
     string getNextMapName();
-    void runPlay(string mapName);
+    void runPlay(string mapName, bool isLoad);
 };
 #endif

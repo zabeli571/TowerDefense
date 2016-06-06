@@ -2,6 +2,8 @@
 #include "Play.h"
 #include "Defense.h"
 #include "Obstacle.h"
+#include "DefenseIce.h"
+#include "DefenseWalk.h"
 
 Statistics::Statistics()
 {
@@ -61,11 +63,20 @@ void Statistics::addOpponentDefeated()
     opponentsDefeated++;
 }
 
+int Statistics::getOpponentsDefeated()
+{
+    return opponentsDefeated;
+}
+
+void Statistics::setOpponentsDefeated(int opponentsCount) {
+    opponentsDefeated = opponentsCount;
+}
+
 void Statistics::countDefendersStand(list<GameObject*> *gameObjects)
 {
     for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
     {
-        if((*iter)->getCode() == Defense::DEFENSE_CODE)
+        if((*iter)->getCode() == Defense::DEFENSE_CODE || (*iter)->getCode() == DefenseWalk::DEFENSE_WALK_CODE || (*iter)->getCode() == DefenseIce::DEFENSE_ICE_CODE)
         {
             defensesStand++;
         }
@@ -111,20 +122,3 @@ int Statistics::getButtonCodeWhenClicked()
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

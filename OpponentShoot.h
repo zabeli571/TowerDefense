@@ -22,11 +22,15 @@ public:
     OpponentShoot(GameField *gameField);
     OpponentShoot(GameField *gameField,  int row, int column);
     OpponentShoot(GameField *gameField, ifstream *inputStream);
+    OpponentShoot(GameField *gameField, ifstream *inputStream, bool exact);
 
     virtual void managePauseStart(chrono::milliseconds pauseStartTime);
     virtual void managePauseEnd(chrono::milliseconds pauseEndTime);
 
     void displayOnConsole();
     ~OpponentShoot();
+
+    void saveToStreamExact(ofstream* outputStream);
+
 };
 #endif //TOWERDEFENSE_OPPONENTSHOOT_H

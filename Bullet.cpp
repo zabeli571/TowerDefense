@@ -2,27 +2,7 @@
 #include "Opponent.h"
 #include "Play.h"
 
-
-Bullet::Bullet(GameField *gameField, int row, int column) : GameObject(gameField,row,column)
-{
-//    cout<<"\tkonstruktor Bullet"<<endl;
-    code = BULLET_CODE;
-    hp=1;
-    initialHP = hp;
-    allegroColor=al_map_rgb(204,0,0);
-    image = al_load_bitmap("bitmaps/bullet.png");
-    imageHalfHP = al_load_bitmap("bitmaps/bullet.png");
-
-    alreadyPunched = false;
-
-    int shrinkValue = xLength/2; //pomniejszam za duza pestke
-    xLength -= shrinkValue;
-    yLength -= shrinkValue;
-    x += shrinkValue/2;
-    y += shrinkValue/2;
-}
-
-Bullet::Bullet(GameField *gameField, int x, int y, bool exact) : GameObject(gameField,x,y,exact)
+Bullet::Bullet(GameField *gameField, int x, int y) : GameObject(gameField,x,y,true)
 {
 //    cout<<"\tkonstruktor Bullet"<<endl;
     code = BULLET_CODE;
@@ -41,7 +21,19 @@ Bullet::Bullet(GameField *gameField, int x, int y, bool exact) : GameObject(game
     this->y += shrinkValue/2;
 }
 
+Bullet::Bullet(GameField *gameField, ifstream *inputStream, bool exact) : GameObject(gameField,inputStream,exact)
+{
+    code = BULLET_CODE;
+    image = al_load_bitmap("bitmaps/bullet.png");
+    imageHalfHP = al_load_bitmap("bitmaps/bullet.png");
+    int shrinkValue = xLength/2;
+    xLength -= shrinkValue;
+    yLength -= shrinkValue;
 
+    int k;
+    *inputStream >> k;
+    alreadyPunched = k==1;
+}
 
 Bullet::~Bullet()
 {
@@ -86,4 +78,9 @@ void Bullet::collisionWithBullet(Bullet *bullet)
 void Bullet::move()
 {
     x+=5;
+}
+
+void Bullet::saveToStreamExact(ofstream *outputStream) {
+    GameObject::saveToStreamExact(outputStream);
+    *outputStream << " " << (alreadyPunched?1:0);
 }

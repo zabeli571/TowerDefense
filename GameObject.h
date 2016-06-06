@@ -27,16 +27,23 @@ public:
     bool willMove;
 
     static void resetIdCounter();
+    static int getCurrentId();
+    static int setCurrentId(int idCounter);
+
     static GameObject* getGameObjectByCode(GameField *gameField,int code, ifstream *inputStream);
+    static GameObject *loadGameObjectByCode(GameField *gameField, int code, ifstream *inputStream);
+
     GameObject(GameField *gameField);
     GameObject(GameField *gameField, int row, int column);
     GameObject(GameField *gameField, int x, int y, bool exact);
     GameObject(GameField *gameField, ifstream *inputStream);
+    GameObject(GameField *gameField, ifstream *inputStream, bool exact);
     ~GameObject();
     void draw();
     virtual void displayOnConsole();
     bool isItsPosition(int randomRow,int randomColumn);//dla kazdego obiektu sprawdzam cz wylosowane pole to jego pozycja
     virtual void saveToStream(ofstream* outputStream);
+    virtual void saveToStreamExact(ofstream* outputStream);
 
     virtual void collisionWith(GameObject *anotherObject) = 0;
     virtual void collisionWithOpponent(Opponent *opponent) = 0;

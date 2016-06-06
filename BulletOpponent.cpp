@@ -3,7 +3,14 @@
 #include "Obstacle.h"
 #include "Defense.h"
 
-BulletOpponent::BulletOpponent(GameField *gameField, int x, int y) : Bullet(gameField,x,y,true)
+BulletOpponent::BulletOpponent(GameField *gameField, int x, int y) : Bullet(gameField,x,y)
+{
+    code = BULLET_OPPONENT_CODE;
+    image = al_load_bitmap("bitmaps/bullet_opponent.png");
+    imageHalfHP = al_load_bitmap("bitmaps/bullet_opponent.png");
+}
+
+BulletOpponent::BulletOpponent(GameField *gameField, ifstream *inputStream, bool exact) : Bullet(gameField,inputStream,exact)
 {
     code = BULLET_OPPONENT_CODE;
     image = al_load_bitmap("bitmaps/bullet_opponent.png");

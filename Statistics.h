@@ -34,6 +34,8 @@ public:
     void addOpponentDefeated(); //dodaje kolejnego pokonanego przeciwnika
     void countDefendersStand(list<GameObject*> *gameObjects); //zliczam obstacle i defense, ktore przezyly
     int getButtonCodeWhenClicked(); //zwroci back_code gdy wybiore przycisk powrot
+    int getOpponentsDefeated();
+    void setOpponentsDefeated(int opponentsCount);
 };
 
 

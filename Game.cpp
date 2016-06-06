@@ -58,10 +58,11 @@ void Game::run()
         {
             case MenuButton::MENU_BUTTON_CODE_NEW_GAME:
                 cout<<"nowa gra!"<<endl;
-                runPlay("maps/"+ getNextMapName()+".izu");
+                runPlay("maps/"+ getNextMapName()+".izu", false);
                 break;
             case MenuButton::MENU_BUTTON_CODE_LOAD_GAME:
                 cout<<"wczytana!"<<endl;
+                runPlay("saves/save1.izusave", true);
                 break;
             case MenuButton::MENU_BUTTON_CODE_CREATE_MAP:
                 cout<<"tworz mape!"<<endl;
@@ -369,11 +370,11 @@ string Game::getNextMapName()
     return "map1"; //narazie mam 1 mape
 }
 
-void Game::runPlay(string mapName)
+void Game::runPlay(string mapName, bool isLoad)
 {
     deleteObjects();
     Statistics statistics; //tworzymy obiekt statistics
-    Play play(mapName,this,&gameObjects, &interfaceObjects, &statistics); //tworze nowy obiekt play przekazuje game i adres do wektora obiektow wczytanych z pliku
+    Play play(mapName,this,&gameObjects, &interfaceObjects, &statistics, isLoad); //tworze nowy obiekt play przekazuje game i adres do wektora obiektow wczytanych z pliku
     int score = play.run(); //zaczyna sie gra
     if(score == Pause::EXIT_CODE)
     {

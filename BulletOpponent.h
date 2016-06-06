@@ -10,8 +10,6 @@
 class BulletOpponent : public Bullet
 {
 protected:
-    static const int BULLET_OPPONENT_CODE = 20011;
-
     void move();
     void collisionWithOpponent(Opponent *opponent);
     void collisionWithObstacle(Obstacle *obstacle);
@@ -19,7 +17,10 @@ protected:
     void attackObject(GameObject *gameObject);
 
 public:
+    static const int BULLET_OPPONENT_CODE = 20011;
+
     BulletOpponent(GameField *gameField, int x, int y);
+    BulletOpponent(GameField *gameField, ifstream *inputStream, bool exact);
     ~BulletOpponent();
 
 };

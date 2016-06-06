@@ -24,12 +24,15 @@ private:
     MainObject *clickedObject;
     ProgressField *progressField;
     long long int lastWaveTime = (std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch())).count();
+    int toNextWaveTime;
+    int wavePauseProgress;
     int addGameObjectCode = 0;
 
     bool checkForOutsideField();
     bool checkForWin();
     void drawPlay();
     void loadObjects(string mapName);
+    void loadGame(string saveName);
     int manageMouseClicked(ALLEGRO_MOUSE_STATE *state);
     bool getCodeIfClicked(ALLEGRO_MOUSE_STATE *state, int *codePointer);
     void manageWaveReady(long long int);
@@ -38,12 +41,12 @@ private:
     GameObjectSelector* getSelectorByCode();
     GameObjectSelector *getSelectorByClicked();
     void increaseMoneyForDefeatingOpponent(int code);
-
+    void saveGame();
 public:
     static const int VICTORY_CODE = 1;
     static const int DEFEAT_CODE = 0;
 
-    Play(string mapName ,Game *game,list<GameObject*> *gameObjects, list<MainObject*> *interfaceObjects ,Statistics *statistics);
+    Play(string mapName ,Game *game,list<GameObject*> *gameObjects, list<MainObject*> *interfaceObjects ,Statistics *statistics, bool isLoad);
     ~Play();
     void addObject(GameObject *gameObject);
     int run();

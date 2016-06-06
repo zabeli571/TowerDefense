@@ -13,16 +13,24 @@
 #include "Pause.h"
 #include <list>
 
-Play::Play(string mapName, Game *game,list<GameObject *> *gameObjects, list<MainObject*> *interfaceObjects, Statistics *statistics)
+Play::Play(string mapName, Game *game,list<GameObject *> *gameObjects, list<MainObject*> *interfaceObjects, Statistics *statistics, bool isLoad)
 {
     cout<<"konstruktor Play"<<endl;
     this->game = game;
     this->gameObjects = gameObjects;
     this->interfaceObjects = interfaceObjects;
     this->statistics = statistics;
-    GameObject::resetIdCounter(); //ustawiam na 0
     gameField = new GameField(GameField::GAME_FIELD_PLAY_CODE);
-    loadObjects(mapName);
+    if(isLoad)
+    {
+        loadGame(mapName);
+    }
+    else
+    {
+        GameObject::resetIdCounter(); //ustawiam na 0
+        loadObjects(mapName);
+        wavePauseProgress = 0;
+    }
 }
 
 Play::~Play()
@@ -151,6 +159,7 @@ void Play::loadObjects(string mapName)
     inputStream >> waves;
     initialWaves = waves;
     inputStream >> frequency;
+    toNextWaveTime = frequency*1000;
     inputStream >> objectsCount; //pobieramy liczbe obiektow
     for(int i=0;i<objectsCount;i++)
     {
@@ -162,6 +171,35 @@ void Play::loadObjects(string mapName)
     }
     inputStream.close();
 }
+
+void Play::loadGame(string saveName)
+{
+    ifstream inputStream(saveName);
+    inputStream >> money;
+    inputStream >> initialWaves;
+    inputStream >> waves;
+    inputStream >> frequency;
+    inputStream >> toNextWaveTime;
+    inputStream >> wavePauseProgress;
+    int counter;
+    inputStream >> counter;
+    GameObject::setCurrentId(counter);
+    int opponentsAlreadyDefeated;
+    inputStream >> opponentsAlreadyDefeated;
+    statistics->setOpponentsDefeated(opponentsAlreadyDefeated);
+    int objectsCount;
+    inputStream >> objectsCount; //pobieramy liczbe obiektow
+    for(int i=0;i<objectsCount;i++)
+    {
+        int code;
+        inputStream >> code;
+        GameObject *gameObject = GameObject::loadGameObjectByCode(gameField,code,&inputStream);
+        gameObjects->push_back(gameObject); //stworzony w getGameObjectByCode nowy obiekt dodajemy do wektora
+
+    }
+    inputStream.close();
+}
+
 
 void Play::drawPlay()
 {
@@ -221,6 +259,8 @@ int Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state)
                 break;
             case Button::BUTTON_PLAY_MENU:
                 std::chrono::milliseconds pauseStartTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+                toNextWaveTime -= pauseStartTime.count() - lastWaveTime;
+                wavePauseProgress = progressField->getProgress();
                 for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
                 {
                     (*iter)->managePauseStart(pauseStartTime);
@@ -236,9 +276,10 @@ int Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state)
                 {
                     if(code == Pause::SAVE_CODE)
                     {
-
+                        saveGame();
                     }
                     std::chrono::milliseconds pauseEndTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+                    lastWaveTime = pauseEndTime.count();
                     for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
                     {
                         (*iter)->managePauseEnd(pauseEndTime);
@@ -248,6 +289,20 @@ int Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state)
     }
     return 0;
 }
+
+void Play::saveGame() //gdy wybierzemy przycisk zapisz
+{
+    ofstream outputStream("saves/save1.izusave"); // obiekt strumien-outputStream klasy ofstream, do konstruktora podaje sciezke
+
+    outputStream << money << " " << initialWaves << " " << waves << " " << frequency << " " << toNextWaveTime << " " << wavePauseProgress << " " << GameObject::getCurrentId() << " " << statistics->getOpponentsDefeated() << " ";
+    outputStream << gameObjects->size(); //zapisujemy ilosc obiektow
+    for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
+    {
+        (*iter)->saveToStreamExact(&outputStream);
+    }
+    outputStream.close(); //zamyka strumien
+}
+
 
 bool Play::getCodeIfClicked(ALLEGRO_MOUSE_STATE *state, int *codePointer)
 {
@@ -276,16 +331,19 @@ void Play::manageWaveReady(long long int currentTime)
 {
     if(waves > 0)
     {
-        if(currentTime - lastWaveTime > (frequency*1000) || initialWaves == waves)
+        if(currentTime - lastWaveTime > toNextWaveTime || initialWaves == waves)
         {
+            wavePauseProgress = 0;
             progressField->setProgress(100);
-            lastWaveTime = currentTime;
             waves--;
             createWave();
-        } else
+            lastWaveTime = currentTime;
+            toNextWaveTime = frequency*1000;
+        }
+        else
         {
             int progress = ((double)(currentTime-lastWaveTime)/(frequency*1000)*100);
-            progressField->setProgress(progress);
+            progressField->setProgress(progress + wavePauseProgress);
         }
     }
 }

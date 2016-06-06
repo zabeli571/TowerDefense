@@ -26,6 +26,7 @@ public:
     static const int DEFENSE_CODE = 9;
     Defense(GameField *gameField);// przy konstruktorach defense, opponent, obstacle daje w argumentach wskaznik na gamefield by znac pole w ktorym chce narysowac
     Defense(GameField *gameField, ifstream *inputStream);
+    Defense(GameField *gameField, ifstream *inputStream,bool exact);
 
     void displayOnConsole();
     ~Defense();
@@ -33,6 +34,7 @@ public:
     virtual void managePauseStart(chrono::milliseconds pauseStartTime);
     virtual void managePauseEnd(chrono::milliseconds pauseEndTime);
 
+    void saveToStreamExact(ofstream* outputStream);
 };
 
 #endif

@@ -17,12 +17,19 @@ void ProgressField:: draw()
     al_draw_filled_rectangle(x, y, x+(xLength*((double)progress/100)), y+yLength, allegroColor);
 }
 
-ProgressField:: ~ProgressField(){
+ProgressField:: ~ProgressField()
+{
     cout<<"\tdestruktor ProgressField"<<endl<<"\t";
 }
 
-void ProgressField::setProgress(int progress) {
+void ProgressField::setProgress(int progress)
+{
     this->progress = progress;
+}
+
+int ProgressField::getProgress()
+{
+    return progress;
 }
 
 

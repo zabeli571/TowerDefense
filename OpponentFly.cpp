@@ -25,6 +25,13 @@ OpponentFly::OpponentFly(GameField *gameField, ifstream *inputStream): Opponent(
     imageHalfHP = al_load_bitmap("bitmaps/opponent_fly_halfHP.png");
 }
 
+OpponentFly::OpponentFly(GameField *gameField, ifstream *inputStream, bool exact) : Opponent(gameField,inputStream,exact)
+{
+    code = OPPONENT_FLY_CODE;
+    image = al_load_bitmap("bitmaps/opponent_fly.png");
+    imageHalfHP = al_load_bitmap("bitmaps/opponent_fly_halfHP.png");
+}
+
 OpponentFly::~OpponentFly()
 {
 //    cout<<"destruktor OpponentFly"<<endl;
