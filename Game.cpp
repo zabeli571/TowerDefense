@@ -6,6 +6,7 @@
 #include "NumberChangeButton.h"
 #include "NumberField.h"
 #include "Pause.h"
+#include "Legend.h"
 
 Game::Game()
 {
@@ -68,8 +69,13 @@ void Game::run()
                 cout<<"tworz mape!"<<endl;
                 runCreator();
                 break;
-            case MenuButton::MENU_BUTTON_CODE_LIST_OF_MAPS:
-                cout<<"lista!"<<endl;
+            case MenuButton::MENU_BUTTON_CODE_LEGEND:
+                {
+                    cout<<"lista!"<<endl;
+                    Legend legend;
+                    legend.draw();
+                    legend.getButtonCodeWhenClicked();
+                }
                 break;
             case MenuButton::MENU_BUTTON_CODE_EXIT:
                 return;
@@ -101,7 +107,7 @@ void Game::runMenu()
     interfaceObjects.push_back(new MenuButton(0, MenuButton::MENU_BUTTON_CODE_NEW_GAME,"NOWA GRA"));//dodaje przyciski do wektora
     interfaceObjects.push_back(new MenuButton(1, MenuButton::MENU_BUTTON_CODE_LOAD_GAME,"WCZYTAJ GRE"));
     interfaceObjects.push_back(new MenuButton(2, MenuButton::MENU_BUTTON_CODE_CREATE_MAP, "TWORZENIE MAPY"));
-    interfaceObjects.push_back(new MenuButton(3, MenuButton::MENU_BUTTON_CODE_LIST_OF_MAPS, "LISTA MAP"));
+    interfaceObjects.push_back(new MenuButton(3, MenuButton::MENU_BUTTON_CODE_LEGEND, "OPIS GRY"));
     interfaceObjects.push_back(new MenuButton(4, MenuButton::MENU_BUTTON_CODE_EXIT,"WYJDZ"));
     redraw();
 }
@@ -185,22 +191,9 @@ void Game::runCreator()
                 }
                 cout<<"-----------------------------------------"<<endl;
                 break;
-            case HPButton:: HP_BUTTON_CODE_HP6:
-                selectedHP=6;
-                gameState=GAME_STATE_ADD_DEFENSE;
-                break;
-            case HPButton:: HP_BUTTON_CODE_HP8:
-                selectedHP=8;
-                gameState=GAME_STATE_ADD_DEFENSE;
-                break;
-            case HPButton:: HP_BUTTON_CODE_HP10:
-                selectedHP=10;
-                gameState=GAME_STATE_ADD_DEFENSE;
-                break;
             case GameField::GAME_FIELD_CREATOR_CODE:
                 if(gameState==GAME_STATE_ADD_DEFENSE)
                 {
-//                    deleteHPButtons();
                     Defense *defense=new Defense(gameField); //tworze, ale jeszcze nie rysuje
                     gameObjects.push_back(defense);//dodaje do worka z obiektami
                     gameState=GAME_STATE_IDLE;
@@ -310,7 +303,7 @@ void Game::drawCreator() {
     interfaceObjects.push_back(new NumberChangeButton(250,470,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_WAVES,false));
     interfaceObjects.push_back(new NumberChangeButton(400,470,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_WAVES,true));
     interfaceObjects.push_back(new NumberField(350,480,30,&waves));
-    interfaceObjects.push_back(new Text(350,525,30,"Czestotliwosc fal przeciwnikow",ALLEGRO_ALIGN_CENTRE));
+    interfaceObjects.push_back(new Text(350,525,30,"Czestotliwosc fal przeciwnikow [s]",ALLEGRO_ALIGN_CENTRE));
     interfaceObjects.push_back(new NumberChangeButton(250,560,NumberChangeButton::NUMBER_CHANGE_BUTTON_DECREASE_FREQUENCY,false));
     interfaceObjects.push_back(new NumberChangeButton(400,560,NumberChangeButton::NUMBER_CHANGE_BUTTON_INCREASE_FREQUENCY,true));
     interfaceObjects.push_back(new NumberField(350,570,30,&frequency));

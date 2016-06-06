@@ -9,8 +9,6 @@
 #include "MenuButton.h"
 #include "CreatorButton.h"
 #include "GameObject.h"
-#include "HPButton.h"
-#include "Legend.h"
 #include "Play.h"
 #include "Statistics.h"
 #include <fstream>

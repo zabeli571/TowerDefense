@@ -209,8 +209,8 @@ void Play::drawPlay()
     interfaceObjects->push_back(new NumberField(250,470,30,&money));
     interfaceObjects->push_back(new Text(450,470,30,"Zostalo fal",ALLEGRO_ALIGN_LEFT));
     interfaceObjects->push_back(new NumberField(570,470,30,&waves));
-    interfaceObjects->push_back(new Text(700,470,30,"Czestotliwosc fal",ALLEGRO_ALIGN_LEFT));
-    interfaceObjects->push_back(new NumberField(850,470,30,&frequency));
+    interfaceObjects->push_back(new Text(700,470,30,"Czestotliwosc fal [s]",ALLEGRO_ALIGN_LEFT));
+    interfaceObjects->push_back(new NumberField(900,470,30,&frequency));
     interfaceObjects->push_back(new Text(450,545,30,"Czas do nastepnej fali przeciwnikow",ALLEGRO_ALIGN_LEFT));
 
     GameObjectSelector *gameObjectSelector = new GameObjectSelector(10,50,80,80,GameObjectSelector::GAME_OBJECT_SELECTOR_CODE_DEFENSE);

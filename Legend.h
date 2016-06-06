@@ -1,24 +1,21 @@
 #ifndef TOWERDEFENSE_LEGEND_H
 #define TOWERDEFENSE_LEGEND_H
 
-#include <iostream>
-#include <allegro5/allegro.h>
-#include <iostream>
-#include <allegro5/allegro.h>
+
 #include "MainObject.h"
 #include "GameObject.h"
-#include "GameField.h"
-#include <allegro5/allegro_image.h>
+#include "Button.h"
 
-using namespace std;
 
-class Legend: public MainObject
-{
+class Legend : MainObject {
+private:
+    Button *backButton;
 public:
+    static const int BACK_CODE = 1;
+
     Legend();
+    ~Legend();
     void draw();
-   // ~Legend();
+    int getButtonCodeWhenClicked(); //zwroci back_code gdy wybiore przycisk powrot
 };
-
-
 #endif //TOWERDEFENSE_LEGEND_H

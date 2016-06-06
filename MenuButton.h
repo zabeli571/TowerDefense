@@ -19,7 +19,7 @@ public:
     static const int MENU_BUTTON_CODE_NEW_GAME = 1;
     static const int MENU_BUTTON_CODE_LOAD_GAME = 2;
     static const int MENU_BUTTON_CODE_CREATE_MAP = 3;
-    static const int MENU_BUTTON_CODE_LIST_OF_MAPS = 4;
+    static const int MENU_BUTTON_CODE_LEGEND = 4;
     static const int MENU_BUTTON_CODE_EXIT = 5;
     MenuButton(int number, int code, string name);
     ~MenuButton();
