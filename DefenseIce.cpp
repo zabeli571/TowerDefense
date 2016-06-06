@@ -28,10 +28,11 @@ void DefenseIce::displayOnConsole()
 void DefenseIce::doAction(Play *play) //play zawiera wskaznik do wektora z gameobjectsami, do ktorego dodamy pociski
 {
     std::chrono::milliseconds eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-    if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL) //nie czesciej niz co 3s
+    if(eventTime.count() - lastAttackTime.count() >= toNextAttackTime) //nie czesciej niz co 3s
     {
         play->addObject(new BulletIce(gameField,gridYPos,gridXPos)); //tworze pociski
         lastAttackTime = eventTime;
+        toNextAttackTime = ATTACK_INTERVAL;
     }
 }
 

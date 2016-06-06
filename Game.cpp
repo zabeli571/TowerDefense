@@ -5,6 +5,7 @@
 #include "Text.h"
 #include "NumberChangeButton.h"
 #include "NumberField.h"
+#include "Pause.h"
 
 Game::Game()
 {
@@ -374,11 +375,18 @@ void Game::runPlay(string mapName)
     Statistics statistics; //tworzymy obiekt statistics
     Play play(mapName,this,&gameObjects, &interfaceObjects, &statistics); //tworze nowy obiekt play przekazuje game i adres do wektora obiektow wczytanych z pliku
     int score = play.run(); //zaczyna sie gra
-    statistics.setPlayFinished(score);
-    statistics.draw(); //rysuje statystyki
-    switch (statistics.getButtonCodeWhenClicked())
+    if(score == Pause::EXIT_CODE)
     {
-        case Statistics::BACK_CODE:
-            return; //wychodze z tej funkcji, wiec az do menu
+        return;
+    }
+    else
+    {
+        statistics.setPlayFinished(score);
+        statistics.draw(); //rysuje statystyki
+        switch (statistics.getButtonCodeWhenClicked())
+        {
+            case Statistics::BACK_CODE:
+                return; //wychodze z tej funkcji, wiec az do menu
+        }
     }
 }

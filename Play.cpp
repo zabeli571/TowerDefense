@@ -10,6 +10,7 @@
 #include "Obstacle.h"
 #include "OpponentShoot.h"
 #include "OpponentFly.h"
+#include "Pause.h"
 #include <list>
 
 Play::Play(string mapName, Game *game,list<GameObject *> *gameObjects, list<MainObject*> *interfaceObjects, Statistics *statistics)
@@ -48,7 +49,10 @@ int Play::run()
         al_get_mouse_state(&state);
         if (state.buttons & 1)//spr czy klikniety
         {
-            manageMouseClicked(&state);
+            if(manageMouseClicked(&state) == Pause::EXIT_CODE)
+            {
+                return Pause::EXIT_CODE;
+            }
         }
         eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()); //zapisywanie czasu od 1970
         manageWaveReady(eventTime.count());
@@ -188,7 +192,7 @@ void Play::drawPlay()
     interfaceObjects->push_back(progressField);
 }
 
-void Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state)
+int Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state)
 {
     int code;
     if(getCodeIfClicked(state, &code))
@@ -216,10 +220,33 @@ void Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state)
                 }
                 break;
             case Button::BUTTON_PLAY_MENU:
-                cout<<"MENU!";
-                break;
+                std::chrono::milliseconds pauseStartTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+                for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
+                {
+                    (*iter)->managePauseStart(pauseStartTime);
+                }
+                Pause pause;
+                pause.draw();
+                int code = pause.getButtonCodeWhenClicked();
+                if(code == Pause::EXIT_CODE)
+                {
+                    return code;
+                }
+                else
+                {
+                    if(code == Pause::SAVE_CODE)
+                    {
+
+                    }
+                    std::chrono::milliseconds pauseEndTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+                    for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
+                    {
+                        (*iter)->managePauseEnd(pauseEndTime);
+                    }
+                }
         }
     }
+    return 0;
 }
 
 bool Play::getCodeIfClicked(ALLEGRO_MOUSE_STATE *state, int *codePointer)

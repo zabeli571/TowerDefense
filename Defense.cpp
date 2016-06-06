@@ -15,6 +15,7 @@ Defense::Defense(GameField *gameField): GameObject(gameField)
     image = al_load_bitmap("bitmaps/defense.png");
     imageHalfHP = al_load_bitmap("bitmaps/defense_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    toNextAttackTime = ATTACK_INTERVAL;
 }
 
 Defense::Defense(GameField *gameField, ifstream *inputStream): GameObject(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
@@ -25,6 +26,7 @@ Defense::Defense(GameField *gameField, ifstream *inputStream): GameObject(gameFi
     image = al_load_bitmap("bitmaps/defense.png");
     imageHalfHP = al_load_bitmap("bitmaps/defense_halfHP.png");
     lastAttackTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    toNextAttackTime = ATTACK_INTERVAL;
 }
 
 Defense::~Defense()
@@ -71,10 +73,11 @@ void Defense::collisionWithDefense(Defense *defense)
 void Defense::doAction(Play *play) //play zawiera wskaznik do wektora z gameobjectsami, do ktorego dodamy pociski
 {
     std::chrono::milliseconds eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-    if(eventTime.count() - lastAttackTime.count() >= ATTACK_INTERVAL) //nie czesciej niz co 3s
+    if(eventTime.count() - lastAttackTime.count() >= toNextAttackTime) //nie czesciej niz co 3s
     {
         play->addObject(new Bullet(gameField,gridYPos,gridXPos)); //tworze pociski
         lastAttackTime = eventTime;
+        toNextAttackTime = ATTACK_INTERVAL;
     }
 }
 
@@ -82,3 +85,16 @@ void Defense::collisionWithBullet(Bullet *bullet)
 {
     //brak interakcji
 }
+
+void Defense::managePauseStart(chrono::milliseconds pauseStartTime)
+{
+    toNextAttackTime -= pauseStartTime.count() - lastAttackTime.count();
+}
+
+void Defense::managePauseEnd(chrono::milliseconds pauseEndTime)
+{
+    lastAttackTime = pauseEndTime;
+}
+
+
+

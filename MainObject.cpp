@@ -19,7 +19,6 @@ int MainObject::getCodeIfClicked(int x, int y, MainObject **clickedObject)
 MainObject::~MainObject()
 {
 //    cout << "\tdestruktor MainObject "<<endl;
-    delete(image);
 }
 
 int MainObject::getCode()

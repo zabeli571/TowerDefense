@@ -30,7 +30,7 @@ private:
     bool checkForWin();
     void drawPlay();
     void loadObjects(string mapName);
-    void manageMouseClicked(ALLEGRO_MOUSE_STATE *state);
+    int manageMouseClicked(ALLEGRO_MOUSE_STATE *state);
     bool getCodeIfClicked(ALLEGRO_MOUSE_STATE *state, int *codePointer);
     void manageWaveReady(long long int);
     void createWave();

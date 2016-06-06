@@ -15,7 +15,10 @@ class Opponent: public GameObject
 {
 protected:
     static const int ATTACK_INTERVAL = 1000;
+    static const int FREEZE_INTERVAL = 3000;
     chrono::milliseconds lastAttackTime;
+    int toNextAttackTime;
+    int toDefrostTime;
 
     long long int freezeTimeStamp = 0;
 
@@ -36,6 +39,9 @@ public:
     void saveToStream(ofstream* outputStream);
     ~Opponent();
     void freeze();
+
+    virtual void managePauseStart(chrono::milliseconds pauseStartTime);
+    virtual void managePauseEnd(chrono::milliseconds pauseEndTime);
 };
 
 #endif

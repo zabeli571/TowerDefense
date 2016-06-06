@@ -13,6 +13,8 @@ class Defense: public GameObject
 protected:
     static const int ATTACK_INTERVAL = 3000;
     chrono::milliseconds lastAttackTime;
+    int toNextAttackTime;
+
     void move();
     void collisionWith(GameObject *anotherObject);
     void collisionWithOpponent(Opponent *opponent);
@@ -28,6 +30,9 @@ public:
     void displayOnConsole();
     ~Defense();
     void saveToStream(ofstream* outputStream);
+    virtual void managePauseStart(chrono::milliseconds pauseStartTime);
+    virtual void managePauseEnd(chrono::milliseconds pauseEndTime);
+
 };
 
 #endif

@@ -45,6 +45,9 @@ public:
     virtual void collisionWithBullet(Bullet *bullet) = 0;
     virtual void doAction(Play *play) = 0;
     virtual void move() = 0;
+
+    virtual void managePauseStart(chrono::milliseconds pauseStartTime);
+    virtual void managePauseEnd(chrono::milliseconds pauseEndTime);
     bool willDie();
 
     static bool areObjectsClashed(GameObject *first, GameObject *second);

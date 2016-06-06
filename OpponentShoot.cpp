@@ -18,6 +18,7 @@ OpponentShoot::OpponentShoot(GameField *gameField, int row, int column): Opponen
     image = al_load_bitmap("bitmaps/opponent_shoot.png");
     imageHalfHP = al_load_bitmap("bitmaps/opponent_shoot_halfHP.png");
     lastShootTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    toNextShootTime = SHOOT_INTERVAL;
 }
 
 OpponentShoot::OpponentShoot(GameField *gameField, ifstream *inputStream): Opponent(gameField,inputStream)//przy losowaniu korzystam z drugiego konstruktora gameobjectu
@@ -27,6 +28,7 @@ OpponentShoot::OpponentShoot(GameField *gameField, ifstream *inputStream): Oppon
     image = al_load_bitmap("bitmaps/opponent_shoot.png");
     imageHalfHP = al_load_bitmap("bitmaps/opponent_shoot_halfHP.png");
     lastShootTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+    toNextShootTime = SHOOT_INTERVAL;
 }
 
 OpponentShoot::~OpponentShoot()
@@ -43,9 +45,23 @@ void OpponentShoot::displayOnConsole()
 void OpponentShoot::doAction(Play *play) //play zawiera wskaznik do wektora z gameobjectsami, do ktorego dodamy pociski
 {
     std::chrono::milliseconds eventTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-    if(eventTime.count() - lastShootTime.count() >= SHOOT_INTERVAL) //nie czesciej niz co 3s
+    if(eventTime.count() - lastShootTime.count() >= toNextShootTime) //nie czesciej niz co 3s
     {
         play->addObject(new BulletOpponent(gameField,x,y)); //tworze pociski
         lastShootTime = eventTime;
+        toNextShootTime = SHOOT_INTERVAL;
     }
 }
+
+void OpponentShoot::managePauseStart(chrono::milliseconds pauseStartTime) {
+    Opponent::managePauseStart(pauseStartTime);
+    toNextShootTime -= pauseStartTime.count() - lastShootTime.count();
+}
+
+void OpponentShoot::managePauseEnd(chrono::milliseconds pauseEndTime) {
+    Opponent::managePauseEnd(pauseEndTime);
+    lastShootTime = pauseEndTime;
+}
+
+
+

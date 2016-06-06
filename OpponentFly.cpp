@@ -38,7 +38,7 @@ void OpponentFly::displayOnConsole()
 
 void OpponentFly::move() {
     std::chrono::milliseconds eventTime = std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
-    if(eventTime.count() - freezeTimeStamp > 3000)
+    if(eventTime.count() - freezeTimeStamp > toDefrostTime)
     {
         x-=2;
     }

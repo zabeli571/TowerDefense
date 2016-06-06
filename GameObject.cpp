@@ -105,7 +105,6 @@ void GameObject::displayOnConsole()
 
 GameObject::~GameObject()
 {
-    delete(imageHalfHP);
 //    cout<<"\tdestruktor GameObject"<<endl<<"\t";
 }
 
@@ -198,17 +197,12 @@ bool GameObject::isOutsideField()
     return x < gameField->x || x+xLength > gameField->x+gameField->xLength; //rysunek pomocniczy
 }
 
+void GameObject::managePauseStart(chrono::milliseconds pauseStartTime)
+{
+    //domysle nic nie trzeba robic
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+void GameObject::managePauseEnd(chrono::milliseconds pauseEndTime)
+{
+    //domysle nic nie trzeba robic
+}
