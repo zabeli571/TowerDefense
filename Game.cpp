@@ -23,29 +23,29 @@ Game::~Game()
 
 void Game::deleteObjects()//iteruje sie po obu wektorach i usuwam
 {
-    for(int i=0; i < interfaceObjects.size(); i++)
+    for(list<MainObject*>::iterator iter = interfaceObjects.begin(); iter != interfaceObjects.end() ; iter++)
     {
-        delete(interfaceObjects[i]);
+        delete(*iter);
     }
     interfaceObjects.clear();
-    for(int i=0; i < gameObjects.size(); i++)
+    for(list<GameObject*>::iterator iter = gameObjects.begin(); iter != gameObjects.end() ; iter++)
     {
-        delete(gameObjects[i]);
+        delete(*iter);
     }
     gameObjects.clear();
 
 }
 
-void Game:: deleteClickedObject()
+void Game:: deleteObject(MainObject *gameObject)
 {
-    int i=0;
-    for(i=0; i < gameObjects.size(); i++)
+    list<GameObject*>::iterator iter;
+    for(iter = gameObjects.begin(); iter != gameObjects.end() ; iter++)
     {
-        if(gameObjects[i]==clickedObject)
+        if((*iter)==gameObject)
             break;
     }
-    delete(gameObjects[i]);
-    gameObjects.erase(gameObjects.begin()+i);
+    delete(*iter);
+    gameObjects.erase(iter);
 }
 
 void Game::run()
@@ -116,17 +116,17 @@ int Game::getClickedObjectWithCode()
         al_get_mouse_state(&state);
         if (state.buttons & 1)//spr czy klikniety
         {
-            for(int i=0;i<gameObjects.size();i++)
+            for(list<GameObject*>::iterator iter = gameObjects.begin(); iter != gameObjects.end() ; iter++)
             {
-                int code=gameObjects[i]->getCodeIfClicked(state.x,state.y, &clickedObject);
+                int code=(*iter)->getCodeIfClicked(state.x,state.y, &clickedObject);
                 if(code != 0)
                 {
                     return code;
                 }
             }
-            for(int i=0; i<interfaceObjects.size();i++)
+            for(list<MainObject*>::iterator iter = interfaceObjects.begin(); iter != interfaceObjects.end() ; iter++)
             {
-                int code=interfaceObjects[i]->getCodeIfClicked(state.x,state.y, &clickedObject);
+                int code=(*iter)->getCodeIfClicked(state.x,state.y, &clickedObject);
                 if(code != 0)
                 {
                     return code;
@@ -177,9 +177,9 @@ void Game::runCreator()
                 break;
             case CreatorButton::CREATOR_BUTTON_CODE_DISPLAY:
                 cout<<"-----------------------------------------"<<endl;
-                for(int i=0; i < gameObjects.size(); i++)
+                for(list<GameObject*>::iterator iter = gameObjects.begin(); iter != gameObjects.end() ; iter++)
                 {
-                    gameObjects[i]->displayOnConsole();
+                    (*iter)->displayOnConsole();
                 }
                 cout<<"-----------------------------------------"<<endl;
                 break;
@@ -221,7 +221,7 @@ void Game::runCreator()
             case Obstacle::OBSTACLE_CODE:
                 if(gameState==GAME_STATE_REMOVE_OBJECT)
                 {
-                    deleteClickedObject();
+                    deleteObject(clickedObject);
                     gameState=GAME_STATE_IDLE;
                 }
                 break;
@@ -274,9 +274,9 @@ bool Game::getFreeRandomSquare(int *randomRow,int *randomColumn) {
     {
         gameField->getRandomSquare(randomRow, randomColumn);//losuje randomowe pole
         freeSquare = true;
-        for(int i=0; i < gameObjects.size(); i++)//iteruje sie po calym wektorze gameObjectow by sprawdzic czy wylosowane pole jest wolne
+        for(list<GameObject*>::iterator iter = gameObjects.begin(); iter != gameObjects.end() ; iter++)//iteruje sie po calym wektorze gameObjectow by sprawdzic czy wylosowane pole jest wolne
         {
-            if(gameObjects[i]->isItsPosition(*randomRow, *randomColumn))//dla kazdego obiektu sprawdzam cz wylosowane pole to jego pozycja
+            if((*iter)->isItsPosition(*randomRow, *randomColumn))//dla kazdego obiektu sprawdzam cz wylosowane pole to jego pozycja
             {
                 freeSquare = false;//nie jest wolne
                 break;
@@ -284,27 +284,6 @@ bool Game::getFreeRandomSquare(int *randomRow,int *randomColumn) {
         }
     }
     return true;
-}
-
-void Game::createHPButtons()
-{
-    interfaceObjects.push_back(new HPButton(0, HPButton::HP_BUTTON_CODE_HP6, "HP6"));
-    interfaceObjects.push_back(new HPButton(1, HPButton::HP_BUTTON_CODE_HP8, "HP8"));
-    interfaceObjects.push_back(new HPButton(2, HPButton::HP_BUTTON_CODE_HP10, "HP10"));
-    redraw();
-}
-
-void Game::deleteHPButtons()
-{
-    for(int i=0; i < interfaceObjects.size(); i++)
-    {
-        if(interfaceObjects[i]->getCode()== HPButton::HP_BUTTON_CODE_HP6 || interfaceObjects[i]->getCode()== HPButton::HP_BUTTON_CODE_HP8 || interfaceObjects[i]->getCode()== HPButton::HP_BUTTON_CODE_HP10)
-        {
-            delete(interfaceObjects[i]);
-            interfaceObjects.erase(interfaceObjects.begin()+i);
-            i--;
-        }
-    }
 }
 
 void Game::drawCreator() {
@@ -342,14 +321,6 @@ void Game::changeState()
     {
         case GAME_STATE_ADD_DEFENSE:
             gameField->changeStateToActive();
-            for(int i=0; i < interfaceObjects.size(); i++)
-            {
-                if(interfaceObjects[i]->getCode()== HPButton::HP_BUTTON_CODE_HP6 || interfaceObjects[i]->getCode()== HPButton::HP_BUTTON_CODE_HP8 || interfaceObjects[i]->getCode()== HPButton::HP_BUTTON_CODE_HP10)
-                {
-                    interfaceObjects[i]->changeColor(al_map_rgb(0,  102, 102));
-                }
-            }
-//            clickedObject->changeColor(al_map_rgb(255,  153, 153));
             break;
         case GAME_STATE_ADD_OPPONENT:
         case GAME_STATE_ADD_OBSTACLE:
@@ -368,13 +339,13 @@ void Game::changeState()
 void Game::redraw()
 {
     al_clear_to_color(al_map_rgb(153,204,255));
-    for(int i=0; i < interfaceObjects.size(); i++)
+    for(list<MainObject*>::iterator iter = interfaceObjects.begin(); iter != interfaceObjects.end() ; iter++)
     {
-        interfaceObjects[i]->draw();
+        (*iter)->draw();
     }
-    for(int i=0; i < gameObjects.size(); i++)
+    for(list<GameObject*>::iterator iter = gameObjects.begin(); iter != gameObjects.end() ; iter++)//iteruje sie po calym wektorze gameObjectow by sprawdzic czy wylosowane pole jest wolne
     {
-        gameObjects[i]->draw();// po tym jak dodalam cos do worka z obiektami to tu sie dorysuje
+        (*iter)->draw();// po tym jak dodalam cos do worka z obiektami to tu sie dorysuje
     }
     al_flip_display();
 }
@@ -385,9 +356,9 @@ void Game::saveObjects() //gdy wybierzemy przycisk zapisz
 
     outputStream << money << " " << waves << " " << frequency << " ";
     outputStream << gameObjects.size(); //zapisujemy ilosc obiektow
-    for(int i=0;i<gameObjects.size();i++)
+    for(list<GameObject*>::iterator iter = gameObjects.begin(); iter != gameObjects.end() ; iter++)
     {
-        gameObjects[i]->saveToStream(&outputStream);
+        (*iter)->saveToStream(&outputStream);
     }
     outputStream.close(); //zamyka strumien
 }

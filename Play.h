@@ -1,6 +1,7 @@
 #ifndef TOWERDEFENSE_PLAY_H
 #define TOWERDEFENSE_PLAY_H
 
+#include <list>
 #include "GameObject.h"
 #include "Statistics.h"
 #include "ProgressField.h"
@@ -14,9 +15,9 @@ private:
     static const int REFRESH_TIME = 50;
 
     GameField *gameField;
-    vector<GameObject*> *gameObjects; //wskaznik na wektor wskaznikow na GameObjecty
-    vector<MainObject*> *interfaceObjects; //wskaznik na wektor wskaznikow na GameObjecty
-    vector<GameObjectSelector*> gameObjectsSelectors; //wskaznik na wektor wskaznikow na GameObjecty
+    list<GameObject*> *gameObjects; //wskaznik na wektor wskaznikow na GameObjecty
+    list<MainObject*> *interfaceObjects; //wskaznik na wektor wskaznikow na GameObjecty
+    list<GameObjectSelector*> gameObjectsSelectors; //wskaznik na wektor wskaznikow na GameObjecty
     Game *game;
     Statistics *statistics; //wskaznik na obiekt statistics
     int money = 0, waves = 0, initialWaves = 0,frequency = 0;
@@ -25,7 +26,6 @@ private:
     long long int lastWaveTime = (std::chrono::duration_cast< std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch())).count();
     int addGameObjectCode = 0;
 
-    void deleteObject(GameObject *gameObject);
     bool checkForOutsideField();
     bool checkForWin();
     void drawPlay();
@@ -43,7 +43,7 @@ public:
     static const int VICTORY_CODE = 1;
     static const int DEFEAT_CODE = 0;
 
-    Play(string mapName ,Game *game,vector<GameObject*> *gameObjects, vector<MainObject*> *interfaceObjects ,Statistics *statistics);
+    Play(string mapName ,Game *game,list<GameObject*> *gameObjects, list<MainObject*> *interfaceObjects ,Statistics *statistics);
     ~Play();
     void addObject(GameObject *gameObject);
     int run();

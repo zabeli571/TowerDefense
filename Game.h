@@ -5,7 +5,6 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 #include "Button.h"
-#include <vector>
 #include "Constants.h"
 #include "MenuButton.h"
 #include "CreatorButton.h"
@@ -15,6 +14,7 @@
 #include "Play.h"
 #include "Statistics.h"
 #include <fstream>
+#include <list>
 
 using namespace std;
 
@@ -31,8 +31,8 @@ private:
     int gameState;
     int selectedHP;
     GameField *gameField;
-    vector<MainObject*> interfaceObjects;//button,gamefield - wektor wskaznikow na mainobject
-    vector<GameObject*> gameObjects;//tylko defense,opponents,obstacles
+    list<MainObject*> interfaceObjects;//button,gamefield - wektor wskaznikow na mainobject
+    list<GameObject*> gameObjects;//tylko defense,opponents,obstacles
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_FONT *font=NULL;
     MainObject *clickedObject;
@@ -48,11 +48,9 @@ private:
     void runMenu();
     void deleteObjects();
     void drawCreator();
-    void createHPButtons();
-    void deleteHPButtons();
     void changeState();
     void redraw();
-    void deleteClickedObject();
+    void deleteObject(MainObject *gameObject);
     bool getFreeRandomSquare(int *randomRow,int *randomColumn);
 
     void saveObjects();

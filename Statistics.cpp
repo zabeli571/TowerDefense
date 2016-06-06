@@ -61,15 +61,15 @@ void Statistics::addOpponentDefeated()
     opponentsDefeated++;
 }
 
-void Statistics::countDefendersStand(vector<GameObject*> *gameObjects)
+void Statistics::countDefendersStand(list<GameObject*> *gameObjects)
 {
-    for(int i =0; i< gameObjects->size();i++)
+    for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
     {
-        if((*gameObjects)[i]->getCode() == Defense::DEFENSE_CODE)
+        if((*iter)->getCode() == Defense::DEFENSE_CODE)
         {
             defensesStand++;
         }
-        else if((*gameObjects)[i]->getCode() == Obstacle::OBSTACLE_CODE)
+        else if((*iter)->getCode() == Obstacle::OBSTACLE_CODE)
         {
             obstaclesStand++;
         }

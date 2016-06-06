@@ -10,8 +10,9 @@
 #include "Obstacle.h"
 #include "OpponentShoot.h"
 #include "OpponentFly.h"
+#include <list>
 
-Play::Play(string mapName, Game *game,vector<GameObject *> *gameObjects, vector<MainObject*> *interfaceObjects, Statistics *statistics)
+Play::Play(string mapName, Game *game,list<GameObject *> *gameObjects, list<MainObject*> *interfaceObjects, Statistics *statistics)
 {
     cout<<"konstruktor Play"<<endl;
     this->game = game;
@@ -55,29 +56,29 @@ int Play::run()
         if(eventTime.count() - lastEventTime.count() >= REFRESH_TIME) //aby nie wykonywalo sie co chwile przy ruchu myszy, funkcja wykonuje sie przynajmniej co 50ms
         {
             lastEventTime = eventTime;
-            for(int i=0;i<gameObjects->size();i++) //2 fory, iteruje sie po wszystkich obiektach,by sprawdzic czy doszlo do zderzenia
+            for(list<GameObject*>::reverse_iterator iter1 = gameObjects->rbegin(); iter1 != gameObjects->rend() ; iter1++)//2 fory, iteruje sie po wszystkich obiektach,by sprawdzic czy doszlo do zderzenia
             {
-                for(int j=0;j<gameObjects->size();j++)
+                for(list<GameObject*>::iterator iter2 = gameObjects->begin(); iter2 != gameObjects->end() ; iter2++)
                 {
-                    if(GameObject::areObjectsClashed((*gameObjects)[i], (*gameObjects)[j])) //sprawdzam czy obiekt i zderzyl sie z j
+                    if(GameObject::areObjectsClashed((*iter1), (*iter2))) //sprawdzam czy obiekt i zderzyl sie z j
                     {
                         //aby sprawdzic co jest czym
-                        (*gameObjects)[i]->collisionWith((*gameObjects)[j]);// funkcja wirtualna GameObject, poznam typ i, bo wywola sie dla odpowiedniej klasy
+                        (*iter1)->collisionWith(*iter2);// funkcja wirtualna GameObject, poznam typ i, bo wywola sie dla odpowiedniej klasy
                     }
                 }
-                if((*gameObjects)[i]->willDie()) //sprawdzam czy hp <= 0
+                if((*iter1)->willDie()) //sprawdzam czy hp <= 0
                 {
-                    if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE || (*gameObjects)[i]->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*gameObjects)[i]->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE)
+                    if((*iter1)->getCode() == Opponent::OPPONENT_CODE || (*iter1)->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*iter1)->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE)
                     {
-                        increaseMoneyForDefeatingOpponent((*gameObjects)[i]->getCode());
+                        increaseMoneyForDefeatingOpponent((*iter1)->getCode());
                         statistics->addOpponentDefeated(); //dodajemy do statystyk pokonanego przeciwnika
                     }
-                    deleteObject((*gameObjects)[i]); //hp <= 0 usuwamy
+                    game->deleteObject(*iter1); //hp <= 0 usuwamy
                 }
                 else
                 {
-                    (*gameObjects)[i]->move();
-                    (*gameObjects)[i]->doAction(this); //tylko defense wykonuje akcje - zawsze strzela, niezaleznie od kolizji
+                    (*iter1)->move();
+                    (*iter1)->doAction(this); //tylko defense wykonuje akcje - zawsze strzela, niezaleznie od kolizji
                 }
             }
             if(checkForWin())//zwroci true jesli nie ma przeciwnikow
@@ -97,18 +98,6 @@ int Play::run()
     }
 }
 
-void Play:: deleteObject(GameObject *gameObject)
-{
-    int i=0;
-    for(i=0; i < gameObjects->size(); i++)
-    {
-        if((*gameObjects)[i]==gameObject)
-            break;
-    }
-    delete((*gameObjects)[i]);
-    (*gameObjects).erase((*gameObjects).begin()+i);
-}
-
 void Play::addObject(GameObject *gameObject)
 {
     gameObjects->push_back(gameObject);
@@ -116,17 +105,17 @@ void Play::addObject(GameObject *gameObject)
 
 bool Play::checkForOutsideField()//przegrywam gdy opponent przekroczy pole gry, gdy pocisk przekroczy pole gry zostaje usuniety
 {
-    for(int i=0;i<gameObjects->size();i++)
+    for(list<GameObject*>::reverse_iterator iter = gameObjects->rbegin(); iter != gameObjects->rend() ; iter++)
     {
-        if((*gameObjects)[i]->isOutsideField())
+        if((*iter)->isOutsideField())
         {
-            if((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE || (*gameObjects)[i]->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*gameObjects)[i]->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE) //gdy opponent przekroczy pole
+            if((*iter)->getCode() == Opponent::OPPONENT_CODE || (*iter)->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*iter)->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE) //gdy opponent przekroczy pole
             {
                 return true;
             }
             else
             {
-                deleteObject((*gameObjects)[i]); //usuwamy gdy to nie opponent
+                game->deleteObject((*iter)); //usuwamy gdy to nie opponent
             }
         }
     }
@@ -137,8 +126,9 @@ bool Play::checkForWin()
 {
     if(waves == 0)
     {
-        for (int i = 0; i < gameObjects->size(); i++) {
-            if ((*gameObjects)[i]->getCode() == Opponent::OPPONENT_CODE || (*gameObjects)[i]->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*gameObjects)[i]->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE)//sprawdzam czy na planszy sa jeszcze przeciwnicy
+        for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
+        {
+            if ((*iter)->getCode() == Opponent::OPPONENT_CODE || (*iter)->getCode() == OpponentFly::OPPONENT_FLY_CODE ||(*iter)->getCode() == OpponentShoot::OPPONENT_SHOOT_CODE)//sprawdzam czy na planszy sa jeszcze przeciwnicy
             {
                 return false;
             }
@@ -234,18 +224,18 @@ void Play::manageMouseClicked(ALLEGRO_MOUSE_STATE *state)
 
 bool Play::getCodeIfClicked(ALLEGRO_MOUSE_STATE *state, int *codePointer)
 {
-    for(int i=0;i<gameObjects->size();i++)
+    for(list<GameObject*>::iterator iter = gameObjects->begin(); iter != gameObjects->end() ; iter++)
     {
-        int code=(*gameObjects)[i]->getCodeIfClicked(state->x,state->y, &clickedObject);
+        int code=(*iter)->getCodeIfClicked(state->x,state->y, &clickedObject);
         if(code != 0)
         {
             *codePointer = code;
             return true;
         }
     }
-    for(int i=0; i<interfaceObjects->size();i++)
+    for(list<MainObject*>::iterator iter = interfaceObjects->begin(); iter != interfaceObjects->end() ; iter++)
     {
-        int code=(*interfaceObjects)[i]->getCodeIfClicked(state->x,state->y, &clickedObject);
+        int code=(*iter)->getCodeIfClicked(state->x,state->y, &clickedObject);
         if(code != 0)
         {
             *codePointer = code;
@@ -301,36 +291,36 @@ void Play::createWave()
 
 void Play::manageGameObjectSelectorsState()
 {
-    for(int i=0; i < gameObjectsSelectors.size(); i++)
+    for(list<GameObjectSelector*>::iterator iter = gameObjectsSelectors.begin(); iter != gameObjectsSelectors.end() ; iter++)
     {
-        if(money < gameObjectsSelectors[i]->getPrice())
+        if(money < (*iter)->getPrice())
         {
-            gameObjectsSelectors[i]->setState(MainObject::STATE_CODE_DISABLED);
+            (*iter)->setState(MainObject::STATE_CODE_DISABLED);
         }
         else
         {
-            if(gameObjectsSelectors[i]->getGameObjectCode() != addGameObjectCode)
+            if((*iter)->getGameObjectCode() != addGameObjectCode)
             {
-                gameObjectsSelectors[i]->setState(MainObject::STATE_CODE_NORMAL);
+                (*iter)->setState(MainObject::STATE_CODE_NORMAL);
             }
         }
     }
 }
 
 GameObjectSelector* Play::getSelectorByCode() {
-    for(int i=0; i < gameObjectsSelectors.size(); i++)
+    for(list<GameObjectSelector*>::iterator iter = gameObjectsSelectors.begin(); iter != gameObjectsSelectors.end() ; iter++)
     {
-        if(gameObjectsSelectors[i]->getGameObjectCode() == addGameObjectCode){
-            return gameObjectsSelectors[i];
+        if((*iter)->getGameObjectCode() == addGameObjectCode){
+            return (*iter);
         }
     }
 }
 
 GameObjectSelector *Play::getSelectorByClicked() {
-    for(int i=0; i < gameObjectsSelectors.size(); i++)
+    for(list<GameObjectSelector*>::iterator iter = gameObjectsSelectors.begin(); iter != gameObjectsSelectors.end() ; iter++)
     {
-        if(gameObjectsSelectors[i] == clickedObject){
-            return gameObjectsSelectors[i];
+        if((*iter) == clickedObject){
+            return (*iter);
         }
     }
 }

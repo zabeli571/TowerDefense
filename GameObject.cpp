@@ -105,6 +105,7 @@ void GameObject::displayOnConsole()
 
 GameObject::~GameObject()
 {
+    delete(imageHalfHP);
 //    cout<<"\tdestruktor GameObject"<<endl<<"\t";
 }
 

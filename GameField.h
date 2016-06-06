@@ -3,7 +3,6 @@
 #include <iostream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
-#include <vector>
 #include "MainObject.h"
 #include "Constants.h"
 #include <cstdlib>

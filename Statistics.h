@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Button.h"
 #include <cstdio>
+#include <list>
 
 class Statistics : MainObject
 {
@@ -31,7 +32,7 @@ public:
     void draw();
     void setPlayFinished(int code); //zaladuje bitmape wygranej lub przegranej
     void addOpponentDefeated(); //dodaje kolejnego pokonanego przeciwnika
-    void countDefendersStand(vector<GameObject*> *gameObjects); //zliczam obstacle i defense, ktore przezyly
+    void countDefendersStand(list<GameObject*> *gameObjects); //zliczam obstacle i defense, ktore przezyly
     int getButtonCodeWhenClicked(); //zwroci back_code gdy wybiore przycisk powrot
 };
 
