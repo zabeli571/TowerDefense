@@ -5,7 +5,6 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 #include "Button.h"
-#include "Constants.h"
 #include "MenuButton.h"
 #include "CreatorButton.h"
 #include "GameObject.h"
@@ -20,6 +19,9 @@ class Game
 {
     friend class Play;
 private:
+    static const int WINDOW_HEIGHT=620;
+    static const int WINDOW_WIDTH=1000;
+
     static const int GAME_STATE_IDLE = 0;
     static const int GAME_STATE_ADD_DEFENSE=1;
     static const int GAME_STATE_ADD_OPPONENT=2;

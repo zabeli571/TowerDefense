@@ -90,7 +90,7 @@ void Game::initAllegro() {
         fprintf(stderr, "failed to initialize allegro!\n");
         return;
     }
-    display = al_create_display(Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT);
+    display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
     if(!display) {
         fprintf(stderr, "failed to create display!\n");
         return;
