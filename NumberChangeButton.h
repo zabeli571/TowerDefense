@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <allegro5/allegro.h>
-#include "Constants.h"
 #include "Button.h"
 
 using namespace std;

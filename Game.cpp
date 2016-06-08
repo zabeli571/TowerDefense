@@ -7,6 +7,8 @@
 #include "NumberField.h"
 #include "Pause.h"
 #include "Legend.h"
+#include "MenuButton.h"
+#include "CreatorButton.h"
 
 Game::Game()
 {

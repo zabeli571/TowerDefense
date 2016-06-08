@@ -2,15 +2,17 @@
 #define CREATOR_BUTTON_H
 #include <iostream>
 #include <allegro5/allegro.h>
-#include "Constants.h"
 #include "Button.h"
+#include "Game.h"
 
 using namespace std;
+
+class Game;
 
 class CreatorButton : public Button
 {
 private:
-    static const int BUTTON_XPOS=Constants::WINDOW_WIDTH/2+200;
+    static const int BUTTON_XPOS=Game::WINDOW_WIDTH/2+200;
     static const int BUTTON_YPOS=30;
     static const int BUTTON_WIDTH=240;
     static const int BUTTON_HEIGHT=50;

@@ -3,9 +3,10 @@
 
 #include "MainObject.h"
 #include "GameObject.h"
-#include "Button.h"
 #include <cstdio>
 #include <list>
+
+class Button;
 
 class Statistics : MainObject
 {

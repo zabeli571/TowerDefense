@@ -4,6 +4,7 @@
 #include "Obstacle.h"
 #include "DefenseIce.h"
 #include "DefenseWalk.h"
+#include "Button.h"
 
 Statistics::Statistics()
 {

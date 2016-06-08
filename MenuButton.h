@@ -3,14 +3,17 @@
 #include <iostream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_ttf.h>
-#include "Constants.h"
+#include "Game.h"
 #include "Button.h"
+
 using namespace std;
+
+class Game;
 
 class MenuButton : public Button
 {
 private:
-    static const int BUTTON_XPOS=Constants::WINDOW_WIDTH/2-120;
+    static const int BUTTON_XPOS=Game::WINDOW_WIDTH/2-120;
     static const int BUTTON_YPOS=110;
     static const int BUTTON_WIDTH=240;
     static const int BUTTON_HEIGHT=60;

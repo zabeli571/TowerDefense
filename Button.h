@@ -7,6 +7,7 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_primitives.h>
 #include "MainObject.h"
+#include "Game.h"
 
 using namespace std;
 
